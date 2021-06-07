@@ -1,24 +1,40 @@
 const express = require('express');
 const app = express();
-const fs = require('fs')
+const mongoose = require('mongoose');
+const { errorHandler } = require('./middleware');
+require('dotenv').config();
 
-console.log('Adios')
+//importar router
+const ActivityRouter = require('./routes/ActivityRoutes');
+const MembershipFeeRouter = require('./routes/MembershipFeeRoutes');
+const MemberRouter = require('./routes/MemberRoutes');
+const ServiceRouter = require('./routes/ServiceRoutes');
 
-app.get('/', (req, res) => {
-    return res.send({
-        success: true,
-        message: "You rock!"
+
+const { DB_URI, PORT } = process.env;
+
+mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('DB connected');
     });
+
+//para leer los datos del body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//rutas
+app.use('/activities', ActivityRouter);
+
+app.use('/membershipFees', MembershipFeeRouter);
+
+app.use('/members', MemberRouter);
+
+app.use('/services', ServiceRouter);
+
+app.get('*', (req, res) => {
+    res.end('This was not found');
 });
 
-app.post('createMember', (req, res) => {
-    let obj {
-        name = "Jaume",
-        surname = "Cordoba"
-    };
+app.use(errorHandler);
 
-    fs.writeFile('')
-});
-
-
-app.listen(5000, () => console.log('Now listening for requests on port 5000'))
+app.listen(PORT || 5000, () => console.log(`Now listening for requests on port ${PORT}`));
