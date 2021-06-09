@@ -7,10 +7,10 @@ const ServiceSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    membFee: {
+    membFee: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MembershipFee'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);

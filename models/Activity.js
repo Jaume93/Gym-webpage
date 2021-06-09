@@ -7,10 +7,10 @@ const ActivitySchema = new mongoose.Schema({
     type: {
         type: String
     },
-    membFee: {
+    membFee: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MembershipFee'
-    },
+    }],
     duration: Number,
     startTime: Date,
     location: String,
