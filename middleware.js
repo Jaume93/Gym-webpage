@@ -1,8 +1,12 @@
-let checkToken = (req, res, next => {
+const jwt = require('jsonwebtoken');
+
+//Verifica que el token sea correcto
+let checkToken = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token)
     if (token && token.startsWith('Bearer')) {
         //Remove Bearer from  string
-        token = tokenslice(7, token.length);
+        token = token.slice(7, token.length);
     }
     if (!token) {
         return res.status(401).json({
@@ -10,18 +14,19 @@ let checkToken = (req, res, next => {
             message: 'Auth token is not supplied'
         });
     }
-    jwt.verify(toke, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({
                 success: true,
                 message: 'Token is not valid'
             });
-        } else {
-            req.user = decoded;
-            next();
         }
+        //console.log(decoded)
+        // req.user nos da la id del usuario que ha echo log in
+        req.user = decoded;
+        next();
     });
-});
+};
 
 const errorHandler = (err, req, res, next) => {
     console.error(err);
@@ -32,5 +37,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
-    errorHandler
+    errorHandler,
+    checkToken
 };

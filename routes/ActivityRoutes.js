@@ -2,11 +2,11 @@ const express = require('express');
 const Activity = require('../models/Activity');
 const ActivityRouter = express.Router();
 // const MembershipFee = require('../models/MembershipFee')
-const mongoose = require('mongoose');
-const { db } = require('../models/Activity');
-const MembershipFeeRouter = require('./MembershipFeeRoutes');
 const Member = require('../models/Member');
+const { checkToken } = require('../middleware');
+const MembershipFee = require('../models/MembershipFee');
 
+// Coge todas las actividades
 ActivityRouter.get('/', async (req, res) => {
     try {
         let activities = await Activity.find({}).select(['activityName', 'duration', 'startTime']);
@@ -35,8 +35,8 @@ ActivityRouter.get('/', async (req, res) => {
 //         });
 // });
 
-//Get 1 Activity
-ActivityRouter.get('/:id', async (req, res, next) => {
+//Get 1 Activity by his id
+ActivityRouter.get('/find/:id', async (req, res, next) => {
     try {
         let { id } = req.params;
         let activity = await Activity.findById(id)
@@ -54,29 +54,56 @@ ActivityRouter.get('/:id', async (req, res, next) => {
     }
 });
 
-ActivityRouter.post('/', async (req, res, next) => {
-    const { activityName, type, membFee, duration, startTime, location, maxCapacity } = req.body;
-    let activityTime = new Date()
-    activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
+//Mostar las actividades que tenga cada cuota a los usuarios con esa misma cuota
+ActivityRouter.get('/youractivities', checkToken, async (req, res, next) => {
+    try {
+        //cogemos el id del usuario que se ha registrado con el token
+        const { id } = req.user;
+        //encontramos al usuario por su id
+        const user = await Member.findById(id);
+        //encontramos la cuota que tiene el usuario 
+        const membFeeUser = user.membFee;
+        //De todas las actividades que hay, encuentra la actividad que tenga la misma cuota que tiene el usuario.
+        const activities = await Activity.find({ membFee: membFeeUser });
+        //console.log(activities);
+        //console.log(user);
+        return res.json({
+            success: true,
+            activities
+        });
 
-    if (!activityName || !type || !membFee || !duration || !startTime || !location || !maxCapacity) {
+    } catch (err) {
         return next({
             status: 403,
-            message: 'fill the required information'
-        })
+            message: err.message
+        });
     }
+})
 
-    const activity = new Activity({
-        activityName,
-        type,
-        membFee,
-        duration,
-        startTime: activityTime,
-        location,
-        maxCapacity,
-        partakers: []
-    })
+//Crear actividad
+ActivityRouter.post('/', async (req, res, next) => {
     try {
+        const { activityName, type, membFee, duration, startTime, location, maxCapacity } = req.body;
+        let activityTime = new Date()
+        activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
+
+        if (!activityName || !type || !membFee || !duration || !startTime || !location || !maxCapacity) {
+            return next({
+                status: 403,
+                message: 'fill the required information'
+            })
+        }
+        const activity = new Activity({
+            activityName,
+            type,
+            membFee,
+            duration,
+            startTime: activityTime,
+            location,
+            maxCapacity,
+            partakers: []
+        })
+
         let newActivity = await activity.save();
         return res.json({
             success: true,
@@ -96,6 +123,7 @@ ActivityRouter.put('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
         let { activityName, membFee, duration, startTime, maxCapacity } = req.body;
+
         let activity = await Activity.findById(id);
 
         if (activityName) {
@@ -146,9 +174,9 @@ ActivityRouter.delete('/:id', async (req, res, next) => {
 });
 
 //Apuntarse a una actividad
-ActivityRouter.put('/:id/signupActivity', async (req, res, next) => {
+ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { id } = req.user;
         const { memberId } = req.body;
         let activity = await Activity.findById(id);
         let user = await Member.findById(memberId);
@@ -184,9 +212,6 @@ ActivityRouter.put('/:id/signupActivity', async (req, res, next) => {
                 message: 'Ya estas inscrito a esta actividad'
             })
         }
-
-
-
         // el usuario se apunta a la actividad. se hace push del id del miembro a la array de partakers dentro de la actividad
         // si la actividad ya tiene el aforo al maximimo no se puede apuntar nadie mas
         let partaker = activity.partakers
@@ -214,9 +239,9 @@ ActivityRouter.put('/:id/signupActivity', async (req, res, next) => {
 });
 
 // Borrar un usuario de una actividad
-ActivityRouter.put('/:id/dropOutActivity', async (req, res, next) => {
+ActivityRouter.put('/:id/dropOutActivity', checkToken, async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { id } = req.user;
         const { memberId } = req.body;
         let activity = await Activity.findById(id);
         let user = await Member.findById(memberId);

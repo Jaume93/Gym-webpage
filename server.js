@@ -13,7 +13,7 @@ const ServiceRouter = require('./routes/ServiceRoutes');
 
 const { DB_URI, PORT } = process.env;
 
-mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(DB_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(() => {
         console.log('DB connected');
     });

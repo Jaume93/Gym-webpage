@@ -2,10 +2,10 @@ const express = require('express');
 const Member = require('../models/Member');
 const MemberRouter = express.Router();
 const mongoose = require('mongoose');
-const { response } = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
+const { checkToken } = require('../middleware');
 
 MemberRouter.get('/', async (req, res, next) => {
     // Member.find({})
@@ -91,7 +91,6 @@ MemberRouter.post('/login', async (req, res, next) => {
             message: 'Wrong Credentials (email)'
         });
     }
-
     //La password que creó usuario sin encriptar, se compara con la que esta encriptada y si corresponde igual, da acceso al Log in
     const match = await bcrypt.compare(password, user.password)
 
@@ -101,7 +100,6 @@ MemberRouter.post('/login', async (req, res, next) => {
             message: 'Wrong Credentials (password)'
         });
     }
-
     //creamos un token para el usuario que lo buscamos por el id y tendra acceso durante 24h
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24h" });
 
@@ -112,9 +110,9 @@ MemberRouter.post('/login', async (req, res, next) => {
 })
 
 //Modificar usuario
-MemberRouter.put('/:id', async (req, res, next) => {
+MemberRouter.put('/:id', checkToken, async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { id } = req.user;
         const { email, password, membFee } = req.body;
         const member = await Member.findById(id);
 
@@ -144,9 +142,9 @@ MemberRouter.put('/:id', async (req, res, next) => {
 });
 
 //Eliminar Socio
-MemberRouter.delete('/:id', async (req, res, next) => {
+MemberRouter.delete('/:id', checkToken, async (req, res, next) => {
     try {
-        let { id } = req.params;
+        let { id } = req.user;
         const deleteMember = await Member.findById(id);
         await deleteMember.deleteOne();
         return res.status(200).send('Socio dado de Baja')
