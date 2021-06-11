@@ -3,6 +3,7 @@ const MembershipFee = require('../models/MembershipFee');
 const MembershipFeeRouter = express.Router();
 const mongoose = require('mongoose');
 
+//Get all Fees
 MembershipFeeRouter.get('/', async (req, res) => {
     // MembershipFee.find({})
     //     .then(membershipFees => {
@@ -26,6 +27,7 @@ MembershipFeeRouter.get('/', async (req, res) => {
     }
 });
 
+//Create Fee
 MembershipFeeRouter.post('/', async (req, res, next) => {
     const { name, pvp } = req.body;
 
@@ -77,7 +79,7 @@ MembershipFeeRouter.put('/:id', async (req, res, next) => {
     }
 });
 
-//borrar quota
+//Delete Fee
 MembershipFeeRouter.delete('/:id', async (req, res, next) => {
 
     try {

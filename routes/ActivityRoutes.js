@@ -1,12 +1,10 @@
 const express = require('express');
 const Activity = require('../models/Activity');
 const ActivityRouter = express.Router();
-// const MembershipFee = require('../models/MembershipFee')
 const Member = require('../models/Member');
 const { checkToken } = require('../middleware');
-const MembershipFee = require('../models/MembershipFee');
 
-// Coge todas las actividades
+// Get all activities
 ActivityRouter.get('/', async (req, res) => {
     try {
         let activities = await Activity.find({}).select(['activityName', 'duration', 'startTime']);
@@ -176,8 +174,8 @@ ActivityRouter.delete('/:id', async (req, res, next) => {
 //Apuntarse a una actividad
 ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => {
     try {
-        const { id } = req.user;
-        const { memberId } = req.body;
+        const { id } = req.params;
+        const memberId = req.user.id;
         let activity = await Activity.findById(id);
         let user = await Member.findById(memberId);
 
@@ -194,6 +192,18 @@ ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => 
             return next({
                 status: 404,
                 message: 'Esta actividad no existe'
+            })
+        }
+
+        //Comprobar si la cuota permite apuntarse a la actividad
+        const userFee = user.membFee;
+        const activityFees = activity.membFee;
+
+        // Si la cuota del miembro no se encuentra en la array de cuotas de la actividad, devuelve error.
+        if (activityFees.indexOf(userFee) == -1) {
+            return next({
+                status: 403,
+                message: 'This activity is not for your Membership Fee'
             })
         }
 
@@ -241,8 +251,8 @@ ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => 
 // Borrar un usuario de una actividad
 ActivityRouter.put('/:id/dropOutActivity', checkToken, async (req, res, next) => {
     try {
-        const { id } = req.user;
-        const { memberId } = req.body;
+        const { id } = req.params;
+        const memberId = req.user.id;
         let activity = await Activity.findById(id);
         let user = await Member.findById(memberId);
 

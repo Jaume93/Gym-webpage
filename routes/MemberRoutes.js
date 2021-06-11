@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const { checkToken } = require('../middleware');
 
+// Get all members
 MemberRouter.get('/', async (req, res, next) => {
     // Member.find({})
     //     .then(members => {
@@ -110,7 +111,7 @@ MemberRouter.post('/login', async (req, res, next) => {
 })
 
 //Modificar usuario
-MemberRouter.put('/:id', checkToken, async (req, res, next) => {
+MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
     try {
         const { id } = req.user;
         const { email, password, membFee } = req.body;
@@ -122,6 +123,8 @@ MemberRouter.put('/:id', checkToken, async (req, res, next) => {
         if (password) {
             member.password = password;
         }
+
+
         if (membFee) {
             member.membFee = membFee;
         }
@@ -129,10 +132,9 @@ MemberRouter.put('/:id', checkToken, async (req, res, next) => {
         let updatedMember = await member.save();
         return res.json({
             success: true,
-            member: updatedMember
+            member: updatedMember,
+            message: ('All data has been updated')
         })
-        return res.status(200).send('Has actualizado los datos correctamente')
-
     } catch (err) {
         return next({
             status: 404,
@@ -142,7 +144,7 @@ MemberRouter.put('/:id', checkToken, async (req, res, next) => {
 });
 
 //Eliminar Socio
-MemberRouter.delete('/:id', checkToken, async (req, res, next) => {
+MemberRouter.delete('/removeAccount', checkToken, async (req, res, next) => {
     try {
         let { id } = req.user;
         const deleteMember = await Member.findById(id);
