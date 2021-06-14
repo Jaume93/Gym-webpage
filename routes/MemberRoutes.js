@@ -37,12 +37,20 @@ MemberRouter.post('/signin', async (req, res, next) => {
     try {
         const { name, lastName, email, password, membFee } = req.body;
         const user = await Member.findOne({ email });
+        const emailRegex = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
 
         if (!name || !lastName || !email || !password || !membFee) {
             return next({
                 status: 403,
                 message: 'fill the required information'
             });
+        }
+
+        if (!emailRegex.test(email)) {
+            return next({
+                status: 403,
+                message: "Mail no valido"
+            })
         }
 
         if (user) {
@@ -110,6 +118,26 @@ MemberRouter.post('/login', async (req, res, next) => {
     });
 })
 
+// Get info of Login Member
+MemberRouter.get('/yourInfo', checkToken, async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        let member = await Member.findById(id)
+            .select(['-_id', '-password'])
+            .populate('membFee', '-_id');
+        return res.json({
+            success: true,
+            member
+        });
+    }
+    catch (err) {
+        return next({
+            status: 500,
+            message: err.message
+        });
+    }
+});
+
 //Modificar usuario
 MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
     try {
@@ -124,7 +152,6 @@ MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
             member.password = password;
         }
 
-
         if (membFee) {
             member.membFee = membFee;
         }
@@ -133,7 +160,7 @@ MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
         return res.json({
             success: true,
             member: updatedMember,
-            message: ('All data has been updated')
+            message: ('All changes have been updated')
         })
     } catch (err) {
         return next({

@@ -4,10 +4,38 @@ const ActivityRouter = express.Router();
 const Member = require('../models/Member');
 const { checkToken } = require('../middleware');
 
+// Actualizar a 0 los partakers de las actividades cuando acaba el dia 
+// ActivityRouter.put('/resetPartakers', checkToken, async (req, res, next) => {
+//     try {
+//         const { id } = req.user;
+//         const activity = await Activity.find({});
+//         const partakers = activity.partakers;
+//         const date = activity.startTime;
+//         let activityTime = new Date()
+//         const deletePartakers = partakers.
+//         // activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
+
+
+//         if (date < activityTime) {
+//             return res.json({
+//                 sucess: true,
+//                 partakers
+//             });
+//             const activityUpdated = await activity.save();
+//         }
+//     } catch (err) {
+//         return next({
+//             status: 500,
+//             message: err.message
+//         });
+//     }
+// });
+
 // Get all activities
-ActivityRouter.get('/', async (req, res) => {
+ActivityRouter.get('/', async (req, res, next) => {
     try {
-        let activities = await Activity.find({}).select(['activityName', 'duration', 'startTime']);
+        const activities = await Activity.find({})
+            .select(['activityName', 'duration', 'startTime']);
         return res.json({
             success: true,
             activities
@@ -53,34 +81,40 @@ ActivityRouter.get('/find/:id', async (req, res, next) => {
 });
 
 //Mostar las actividades que tenga cada cuota a los usuarios con esa misma cuota
-ActivityRouter.get('/youractivities', checkToken, async (req, res, next) => {
+ActivityRouter.get('/yourActivities', checkToken, async (req, res, next) => {
     try {
         //cogemos el id del usuario que se ha registrado con el token
         const { id } = req.user;
+
         //encontramos al usuario por su id
         const user = await Member.findById(id);
+
         //encontramos la cuota que tiene el usuario 
         const membFeeUser = user.membFee;
         //De todas las actividades que hay, encuentra la actividad que tenga la misma cuota que tiene el usuario.
         const activities = await Activity.find({ membFee: membFeeUser });
-        //console.log(activities);
-        //console.log(user);
+        // console.log(activities);
+
+        // console.log(membFeeUser);
+
         return res.json({
             success: true,
             activities
         });
 
     } catch (err) {
+        console.log(err)
         return next({
             status: 403,
             message: err.message
         });
     }
-})
+});
 
 //Crear actividad
-ActivityRouter.post('/', async (req, res, next) => {
+ActivityRouter.post('/create', checkToken, async (req, res, next) => {
     try {
+        const { id } = req.user;
         const { activityName, type, membFee, duration, startTime, location, maxCapacity } = req.body;
         let activityTime = new Date()
         activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
@@ -117,9 +151,10 @@ ActivityRouter.post('/', async (req, res, next) => {
 });
 
 //Actualizar Actividad
-ActivityRouter.put('/:id', async (req, res, next) => {
+ActivityRouter.put('/modify/:id', checkToken, async (req, res, next) => {
     try {
         let id = req.params.id;
+        const { membId } = req.user.id;
         let { activityName, membFee, duration, startTime, maxCapacity } = req.body;
 
         let activity = await Activity.findById(id);
@@ -155,10 +190,11 @@ ActivityRouter.put('/:id', async (req, res, next) => {
 });
 
 //Borrar Actividad
-ActivityRouter.delete('/:id', async (req, res, next) => {
+ActivityRouter.delete('/delete/:id', checkToken, async (req, res, next) => {
 
     try {
         const { id } = req.params;
+        const { MembId } = req.user.id;
         let deleteActivity = await Activity.findById(id);
         await deleteActivity.deleteOne();
         return res.status(200).send('Actividad borrada');
