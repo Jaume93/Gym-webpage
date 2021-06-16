@@ -24,17 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 
 //rutas
 app.use('/activities', ActivityRouter);
-
 app.use('/membershipFees', MembershipFeeRouter);
-
 app.use('/members', MemberRouter);
-
 app.use('/services', ServiceRouter);
-
 app.get('*', (req, res) => {
     res.end('This was not found');
 });
-
 app.use(errorHandler);
 
 app.listen(PORT || 5000, () => console.log(`Now listening for requests on port ${PORT}`));

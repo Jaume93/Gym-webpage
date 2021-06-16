@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const { checkToken } = require('../middleware');
 
+
 // Get all members
 MemberRouter.get('/', checkToken, async (req, res, next) => {
     try {
@@ -136,33 +137,49 @@ MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
         const { id } = req.user;
         const { email, password, membFee } = req.body;
         const member = await Member.findById(id);
-
+        const emailRegex = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
 
         if (email) {
+            if (email == member.email) {
+                return next({
+                    status: 403,
+                    message: 'Please, enter a differtent email'
+                });
+            }
+            if (!emailRegex.test(email)) {
+                return next({
+                    status: 403,
+                    message: "Mail no valido"
+                })
+            }
             member.email = email;
         }
-        if (email == member.email) {
-            return next({
-                status: 403,
-                message: 'Same email'
-            });
-        }
-        if (password.length < 6) {
-            return next({
-                status: 403,
-                message: 'Password is too short'
-            });
-        }
-        if (password == member.password) {
-            return next({
-                status: 403,
-                message: 'Same password'
-            });
-        }
+
         if (password) {
+            if (password.length < 6) {
+                return next({
+                    status: 403,
+                    message: 'Password is too short'
+                });
+            }
+            // Compara la password antigua desencriptada con la nueva desencriptada
+            const samePassword = await bcrypt.compare(password, member.password);
+            if (samePassword) {
+                return next({
+                    status: 403,
+                    message: "Password cannot be the same as previous"
+                });
+            }
             member.password = password;
         }
+
         if (membFee) {
+            if (membFee == member.membFee) {
+                return next({
+                    status: 403,
+                    message: 'Please select a different Fee'
+                });
+            }
             member.membFee = membFee;
         }
 

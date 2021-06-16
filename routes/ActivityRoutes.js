@@ -16,7 +16,7 @@ ActivityRouter.put('/resetPartakers', checkToken, async (req, res, next) => {
 
             if (activity.startTime.getTime() < currentTime.getTime()) {
                 activity.partakers = [];
-                activity.startTime = activity.startTime.setDate(currentTime.getDate() + 1);
+                activity.startTime = new Date(activity.startTime).setDate(currentTime.getDate() + 1);
                 await activity.save()
             }
         }
@@ -56,7 +56,7 @@ ActivityRouter.get('/', async (req, res, next) => {
 //Get 1 Activity by his id
 ActivityRouter.get('/find/:id', async (req, res, next) => {
     try {
-        let { id } = req.params;
+        const { id } = req.params;
         let activity = await Activity.findById(id)
             .populate('membFee', 'name')
             .populate('partakers', ['name', 'lastName']);
@@ -145,9 +145,9 @@ ActivityRouter.post('/create', checkToken, async (req, res, next) => {
 //Actualizar Actividad
 ActivityRouter.put('/modify/:id', checkToken, async (req, res, next) => {
     try {
-        let id = req.params.id;
+        const id = req.params.id;
         const { membId } = req.user.id;
-        let { activityName, membFee, duration, startTime, maxCapacity } = req.body;
+        const { activityName, membFee, duration, startTime, maxCapacity } = req.body;
 
         let activity = await Activity.findById(id);
 
@@ -266,7 +266,7 @@ ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => 
         return res.json({
             success: true,
             activity: updatedActivity,
-            message: 'Te has apuntado correctamente'
+            message: 'Te has apuntado correctamente a la clase ${activity.startTime}'
         })
     } catch (err) {
         return next({
