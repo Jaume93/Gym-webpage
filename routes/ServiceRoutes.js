@@ -16,7 +16,7 @@ ServiceRouter.get('/', async (req, res, next) => {
     //         })
     //     })
     try {
-        let services = await Service.find({}).populate('membFee', 'name');
+        let services = await Service.find({}).select('-membFee');
         return res.json({
             success: true,
             services
@@ -34,7 +34,8 @@ ServiceRouter.get('/', async (req, res, next) => {
 ServiceRouter.get('/find/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const service = await Service.findById(id);
+        const service = await Service.findById(id)
+            .populate('membFee', 'name');
 
         return res.json({
             success: true,

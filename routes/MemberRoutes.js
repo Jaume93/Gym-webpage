@@ -8,15 +8,7 @@ const { JWT_SECRET } = process.env;
 const { checkToken } = require('../middleware');
 
 // Get all members
-MemberRouter.get('/', async (req, res, next) => {
-    // Member.find({})
-    //     .then(members => {
-    //         return res.json({
-    //             success: true,
-    //             members
-    //         })
-    //     })
-
+MemberRouter.get('/', checkToken, async (req, res, next) => {
     try {
         let members = await Member.find({}).populate('membFee', 'name');
         return res.json({
@@ -124,7 +116,7 @@ MemberRouter.get('/yourInfo', checkToken, async (req, res, next) => {
         const { id } = req.user;
         let member = await Member.findById(id)
             .select(['-_id', '-password'])
-            .populate('membFee', '-_id');
+            .populate('membFee', ['name']);
         return res.json({
             success: true,
             member
@@ -145,16 +137,37 @@ MemberRouter.put('/modifyAccount', checkToken, async (req, res, next) => {
         const { email, password, membFee } = req.body;
         const member = await Member.findById(id);
 
+
         if (email) {
             member.email = email;
+        }
+        if (email == member.email) {
+            return next({
+                status: 403,
+                message: 'Same email'
+            });
+        }
+        if (password.length < 6) {
+            return next({
+                status: 403,
+                message: 'Password is too short'
+            });
+        }
+        if (password == member.password) {
+            return next({
+                status: 403,
+                message: 'Same password'
+            });
         }
         if (password) {
             member.password = password;
         }
-
         if (membFee) {
             member.membFee = membFee;
         }
+
+        const salt = await bcrypt.genSalt(10);
+        member.password = await bcrypt.hash(req.body.password, salt);
 
         let updatedMember = await member.save();
         return res.json({

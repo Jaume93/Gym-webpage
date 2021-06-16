@@ -5,31 +5,35 @@ const Member = require('../models/Member');
 const { checkToken } = require('../middleware');
 
 // Actualizar a 0 los partakers de las actividades cuando acaba el dia 
-// ActivityRouter.put('/resetPartakers', checkToken, async (req, res, next) => {
-//     try {
-//         const { id } = req.user;
-//         const activity = await Activity.find({});
-//         const partakers = activity.partakers;
-//         const date = activity.startTime;
-//         let activityTime = new Date()
-//         const deletePartakers = partakers.
-//         // activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
+ActivityRouter.put('/resetPartakers', checkToken, async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const activities = await Activity.find({});
+        const currentTime = new Date();
+        currentTime.setHours(currentTime.getHours() + 2);
 
+        for (let activity of activities) {
 
-//         if (date < activityTime) {
-//             return res.json({
-//                 sucess: true,
-//                 partakers
-//             });
-//             const activityUpdated = await activity.save();
-//         }
-//     } catch (err) {
-//         return next({
-//             status: 500,
-//             message: err.message
-//         });
-//     }
-// });
+            if (activity.startTime.getTime() < currentTime.getTime()) {
+                activity.partakers = [];
+                activity.startTime = activity.startTime.setDate(currentTime.getDate() + 1);
+                await activity.save()
+            }
+        }
+        return res.json({
+            success: true,
+            activities,
+            message: 'Activities updated in partakers and date'
+        })
+
+    } catch (err) {
+        return next({
+            status: 500,
+            message: err.message
+        });
+    }
+});
+
 
 // Get all activities
 ActivityRouter.get('/', async (req, res, next) => {
@@ -48,18 +52,6 @@ ActivityRouter.get('/', async (req, res, next) => {
         });
     }
 });
-
-// ActivityRouter.get('/:id', (req, res) => {
-//     const { id } = req.params;
-//     Activity.findById(id)
-//         .populate("partakers", ["name", "lastName"])
-//         .exec((err, activity) => {
-//             return res.json({
-//                 success: true,
-//                 activity
-//             });
-//         });
-// });
 
 //Get 1 Activity by his id
 ActivityRouter.get('/find/:id', async (req, res, next) => {

@@ -31,6 +31,7 @@ const MemberSchema = new mongoose.Schema({
 MemberSchema.pre('save', function (next) {
     // si el usuario no es nuevo o la password no se ha modificado, sigue adelante...
     if (!this.isNew || !this.isModified('password')) {
+        console.log(this.isModified)
         return next();
     }
     bcrypt.genSalt(10, (err, salt) => {
