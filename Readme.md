@@ -24,60 +24,76 @@ Some data base (passwords) are encrypted by *bcrypt* and private routes are prot
 
 ### Endpoints
 #### Member    
-*/members/*
+GET   
+*/members/*  --> This is a private route for Admins. It gets all members registered in the Gym's webpage and provide all information (Name, Last Name, Email, Membership Fee) excluding password.
 
-*/members/signin*  
+*/members/yourInfo*  --> This is a private route for logged in users. It gets information of **Name, Last Name, Email and Membership Fee** excluding password.
 
-*/members/login*   
+POST   
+*/members/signin*  --> Non private route. Allow to sign in to the Gym by providing a valid **Name, Last Name, Email, Password and Membership Fee**
 
-*/members/yourInfo*    
+*/members/login*  --> Non private route. Allow to the user to Log in. To log in it is required to enter with the email and pasword that user signed in before.
 
-*/members/modifyAccount*   
+PUT  
+*/members/modifyAccount*  -->  Private Route for the member. This allow to **modify email, password and membership fee**. It cannot be changed none of them if it was the same as previous.
 
-*/members/removeAccount/*    
+DELETE   
+*/members/removeAccount/*  -->  This is a private route to **unsubscribe** from the Gym facilities.
 
    
-#### Membership Fees
-*/membershipFees/*  
+#### Membership Fees   
+GET    
+*/membershipFees/*  --> This is not a private route. It gets all membership fees of the Gym and **provide Name of the fee and Pvp**.
+   
+POST    
+*/membershipFees/create*  --> This is a private route only for Admins. It can **create membership fee** with its Name and Pvp.
+   
+PUT  
+*/membershipFees/modify/:id*  -->     
 
-*/membershipFees/create*   
+DELETE   
+*/membershipFees/delete/:id*  --> This is a private route only for Admins to **delete** a membership fee.   
 
-*/membershipFees/modify/:id*   
+#### Activities  
+GET   
+*/activities/*  -->  This is not a private route. It gets only **name, duration and start time** information of the activities.
 
-*/membershipFees/delete/:id*   
+*/activities/find*:id*  -->   
 
-#### Activities   
-*/activities/*  
+*/activities/yourActivities*  -->   
 
-*/activities/find*:id*   
+POST   
+*/activities/create*  -->    
 
-*/activities/yourActivities*    
+PUT   
+*/activities/:id/signupActivity*  -->   
 
-*/activities/:id/signupActivity*   
+*/activities/:id/dropoutActivity*  -->    
 
-*/activities/:id/dropoutActivity*    
+*/activities/resetPartakers*  -->   
 
-*/activities/resetPartakers*   
+*/activities/modify/:id*  -->      
 
-*/activities/create*    
+DELETE   
+*/activities/remove/:id*  -->     
 
-*/activities/modify/:id*    
+#### Services   
+GET   
+*/services/*  -->  This is not a private route. It gets only **name, description** information of the services.
 
-*/activities/remove/:id*     
+*/servicesfind*:id*  -->   
 
-#### Services    
-*/services/*  
+*/services/yourServices*  -->     
 
-*/servicesfind*:id*   
+POST   
+*/services/create*  -->    
 
-*/services/yourServices*     
+PUT   
+*/services/resetPartakers*  -->   
 
-*/services/resetPartakers*   
+*/services/modify/:id*  -->    
 
-*/services/create*    
-
-*/services/modify/:id*    
-
-*/services/remove/:id*  
+DELETE   
+*/services/remove/:id*  -->  
    
 
