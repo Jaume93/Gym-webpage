@@ -24,6 +24,10 @@ const MemberSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MembershipFee',
         required: true
+    },
+    role: {
+        type: Number,
+        default: 0,
     }
 });
 

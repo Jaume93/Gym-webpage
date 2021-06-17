@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
-const { checkToken } = require('../middleware');
+const { checkToken, authRole } = require('../middleware');
 
 
 // Get all members
-MemberRouter.get('/', checkToken, async (req, res, next) => {
+MemberRouter.get('/', checkToken, authRole, async (req, res, next) => {
     try {
         let members = await Member.find({}).populate('membFee', 'name');
         return res.json({
@@ -214,5 +214,26 @@ MemberRouter.delete('/removeAccount', checkToken, async (req, res, next) => {
         })
     }
 });
+
+// Ruta para que el administrador pase a admin a un miembro
+// MemberRouter.post('/admin', checkToken, authRole, async (req, res, next) => {
+//     try {
+//         const memberId = await Member.find(id);
+//         const memberRole = memberId.role;
+//         if (memberId.role == 0) {
+//             return res.json({
+//                 memberRole = 1
+//             });
+//         }
+
+//     }
+//     catch (err) {
+//         return next({
+//             status: 500,
+//             message: err.message
+//         });
+//     }
+// });
+
 
 module.exports = MemberRouter;

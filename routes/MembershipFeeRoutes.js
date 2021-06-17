@@ -2,7 +2,7 @@ const express = require('express');
 const MembershipFee = require('../models/MembershipFee');
 const MembershipFeeRouter = express.Router();
 const mongoose = require('mongoose');
-const { checkToken } = require('../middleware');
+const { checkToken, authRole } = require('../middleware');
 
 //Get all Fees
 MembershipFeeRouter.get('/', async (req, res) => {
@@ -29,7 +29,7 @@ MembershipFeeRouter.get('/', async (req, res) => {
 });
 
 //Create Fee
-MembershipFeeRouter.post('/create', checkToken, async (req, res, next) => {
+MembershipFeeRouter.post('/create', checkToken, authRole, async (req, res, next) => {
     const { name, pvp } = req.body;
     const { id } = req.user;
 
@@ -53,7 +53,7 @@ MembershipFeeRouter.post('/create', checkToken, async (req, res, next) => {
 });
 
 //Actualizar Quota
-MembershipFeeRouter.put('/modify/:id', checkToken, async (req, res, next) => {
+MembershipFeeRouter.put('/modify/:id', checkToken, authRole, async (req, res, next) => {
     try {
         const { membId } = req.user.id;
         const { id } = req.params;
@@ -83,7 +83,7 @@ MembershipFeeRouter.put('/modify/:id', checkToken, async (req, res, next) => {
 });
 
 //Delete Fee
-MembershipFeeRouter.delete('/delete/:id', checkToken, async (req, res, next) => {
+MembershipFeeRouter.delete('/delete/:id', checkToken, authRole, async (req, res, next) => {
 
     try {
         const { id } = req.params;

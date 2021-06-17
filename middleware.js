@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const Member = require('./models/Member');
+
 
 //Verifica que el token del usuario log in sea correcto
 let checkToken = (req, res, next) => {
@@ -28,15 +30,29 @@ let checkToken = (req, res, next) => {
     });
 };
 
+const authRole = async (req, res, next) => {
+    const id = req.user.id;
+    const member = await Member.findById(id);
+
+    if (member.role != 1) {
+        return next({
+            status: 401,
+            message: 'Not allowed'
+        })
+    }
+    next()
+}
+
 const errorHandler = (err, req, res, next) => {
-    console.error(err);
+    console.error(err); { }
     res.status(err.status || 400).send({
         success: false,
         message: err._message || err.message
-    })
-};
+    });
+}
 
 module.exports = {
     errorHandler,
-    checkToken
+    checkToken,
+    authRole
 };

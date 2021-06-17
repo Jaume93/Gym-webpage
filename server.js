@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const { errorHandler } = require('./middleware');
+const { errorHandler, authRole } = require('./middleware');
 require('dotenv').config();
+
 
 //importar router
 const ActivityRouter = require('./routes/ActivityRoutes');
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //rutas
+//app.use(getAuth);
 app.use('/activities', ActivityRouter);
 app.use('/membershipFees', MembershipFeeRouter);
 app.use('/members', MemberRouter);

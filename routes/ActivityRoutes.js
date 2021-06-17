@@ -2,18 +2,16 @@ const express = require('express');
 const Activity = require('../models/Activity');
 const ActivityRouter = express.Router();
 const Member = require('../models/Member');
-const { checkToken } = require('../middleware');
+const { checkToken, authRole } = require('../middleware');
 
 // Actualizar a 0 los partakers de las actividades cuando acaba el dia 
-ActivityRouter.put('/resetPartakers', checkToken, async (req, res, next) => {
+ActivityRouter.put('/resetPartakers', async (req, res, next) => {
     try {
-        const { id } = req.user;
         const activities = await Activity.find({});
         const currentTime = new Date();
         currentTime.setHours(currentTime.getHours() + 2);
 
         for (let activity of activities) {
-
             if (activity.startTime.getTime() < currentTime.getTime()) {
                 activity.partakers = [];
                 activity.startTime = new Date(activity.startTime).setDate(currentTime.getDate() + 1);
@@ -59,7 +57,7 @@ ActivityRouter.get('/find/:id', async (req, res, next) => {
         const { id } = req.params;
         let activity = await Activity.findById(id)
             .populate('membFee', 'name')
-            .populate('partakers', ['name', 'lastName']);
+            .select('-partakers');
         return res.json({
             success: true,
             activity
@@ -84,7 +82,9 @@ ActivityRouter.get('/yourActivities', checkToken, async (req, res, next) => {
         //encontramos la cuota que tiene el usuario 
         const membFeeUser = user.membFee;
         //De todas las actividades que hay, encuentra la actividad que tenga la misma cuota que tiene el usuario.
-        const activities = await Activity.find({ membFee: membFeeUser });
+        const activities = await Activity.find({ membFee: membFeeUser })
+            .select('-partakers')
+            .select('-membFee');
         // console.log(activities);
 
         // console.log(membFeeUser);
@@ -104,7 +104,7 @@ ActivityRouter.get('/yourActivities', checkToken, async (req, res, next) => {
 });
 
 //Crear actividad
-ActivityRouter.post('/create', checkToken, async (req, res, next) => {
+ActivityRouter.post('/create', checkToken, authRole, async (req, res, next) => {
     try {
         const { id } = req.user;
         const { activityName, type, membFee, duration, startTime, location, maxCapacity } = req.body;
@@ -143,7 +143,7 @@ ActivityRouter.post('/create', checkToken, async (req, res, next) => {
 });
 
 //Actualizar Actividad
-ActivityRouter.put('/modify/:id', checkToken, async (req, res, next) => {
+ActivityRouter.put('/modify/:id', checkToken, authRole, async (req, res, next) => {
     try {
         const id = req.params.id;
         const { membId } = req.user.id;
@@ -182,7 +182,7 @@ ActivityRouter.put('/modify/:id', checkToken, async (req, res, next) => {
 });
 
 //Borrar Actividad
-ActivityRouter.delete('/delete/:id', checkToken, async (req, res, next) => {
+ActivityRouter.delete('/delete/:id', checkToken, authRole, async (req, res, next) => {
 
     try {
         const { id } = req.params;
@@ -266,7 +266,7 @@ ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => 
         return res.json({
             success: true,
             activity: updatedActivity,
-            message: 'Te has apuntado correctamente a la clase ${activity.startTime}'
+            message: 'Te has apuntado correctamente a la clase ${activity}'
         })
     } catch (err) {
         return next({

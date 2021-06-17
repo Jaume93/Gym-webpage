@@ -4,7 +4,7 @@ const ServiceRouter = express.Router();
 const mongoose = require('mongoose');
 const MembershipFee = require('../models/MembershipFee');
 const Member = require('../models/Member');
-const { checkToken } = require('../middleware');
+const { checkToken, authRole } = require('../middleware');
 
 // Get all services
 ServiceRouter.get('/', async (req, res, next) => {
@@ -50,7 +50,7 @@ ServiceRouter.get('/find/:id', async (req, res, next) => {
 });
 
 //Crear servicio
-ServiceRouter.post('/create', checkToken, async (req, res, next) => {
+ServiceRouter.post('/create', checkToken, authRole, async (req, res, next) => {
     try {
         const { id } = req.user;
         const { serviceName, description, membFee } = req.body;
@@ -109,7 +109,7 @@ ServiceRouter.get('/yourServices', checkToken, async (req, res, next) => {
 })
 
 //Modificar Servicio
-ServiceRouter.put('/modify/:id', checkToken, async (req, res, next) => {
+ServiceRouter.put('/modify/:id', checkToken, authRole, async (req, res, next) => {
     try {
         const { id } = req.params;
         const { membId } = req.user.id;
@@ -139,7 +139,7 @@ ServiceRouter.put('/modify/:id', checkToken, async (req, res, next) => {
 });
 
 //Eliminar servicio
-ServiceRouter.delete('/delete/:id', checkToken, async (req, res, next) => {
+ServiceRouter.delete('/delete/:id', checkToken, authRole, async (req, res, next) => {
     try {
         const { id } = req.params;
         const { membId } = req.user.id;
