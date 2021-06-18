@@ -322,6 +322,13 @@ ActivityRouter.put('/:id/dropOutActivity', checkToken, async (req, res, next) =>
             return false
         });
 
+        // si no esta en la array de partaker, mensaje: no estas apuntado a la actividad
+        if (!isInArray) {
+            return next({
+                status: 403,
+                message: 'You are not signed up to the activity'
+            })
+        }
         //condicion si esta en la array de partaker en la actividad, Borralo de la actividad.
         if (isInArray) {
             let index = activity.partakers.findIndex(partaker => partaker == memberId)
