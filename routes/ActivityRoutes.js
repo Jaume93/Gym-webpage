@@ -235,6 +235,20 @@ ActivityRouter.put('/:id/signupActivity', checkToken, async (req, res, next) => 
             })
         }
 
+        //Si la hora de la clase ya se ha iniciado. No se puede apuntar.
+        const activities = await Activity.find({});
+        const currentTime = new Date();
+        currentTime.setHours(currentTime.getHours() + 2);
+
+        for (let activity of activities) {
+            if (activity.startTime.getTime() > currentTime.getTime()) {
+                return next({
+                    status: 403,
+                    message: 'This activity has started'
+                });
+            }
+        }
+
         // Comprobar si el usuario ya esta apuntado a la actividad. si la la id del miembro esta ya dentro de la array de partakers dentro de la actividad
         let isInArray = activity.partakers.some(member => {
             if (memberId == member) {

@@ -30,6 +30,7 @@ let checkToken = (req, res, next) => {
     });
 };
 
+// Para hacer ruta solo para admins
 const authRole = async (req, res, next) => {
     const id = req.user.id;
     const member = await Member.findById(id);

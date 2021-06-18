@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const { checkToken, authRole } = require('../middleware');
+const { findOne } = require('../models/Member');
 
 
 // Get all members
@@ -216,24 +217,46 @@ MemberRouter.delete('/removeAccount', checkToken, async (req, res, next) => {
 });
 
 // Ruta para que el administrador pase a admin a un miembro
-// MemberRouter.post('/admin', checkToken, authRole, async (req, res, next) => {
-//     try {
-//         const memberId = await Member.find(id);
-//         const memberRole = memberId.role;
-//         if (memberId.role == 0) {
-//             return res.json({
-//                 memberRole = 1
-//             });
-//         }
+MemberRouter.post('/admin', checkToken, authRole, async (req, res, next) => {
+    try {
+        const { adminId } = req.user.id;
+        const { id } = req.body;
 
-//     }
-//     catch (err) {
-//         return next({
-//             status: 500,
-//             message: err.message
-//         });
-//     }
-// });
+        if (!id || id.length != 24) {
+            return next({
+                status: 403,
+                message: 'Select a member ID'
+            });
+        }
 
+        const member = await Member.findById(id);
+        if (!member) {
+            return next({
+                status: 403,
+                message: 'Wrong ID'
+            });
+        }
+
+        if (member.role != 0) {
+            return next({
+                status: 403,
+                message: 'This member is already admin'
+            });
+        } member.role = 1
+
+        const updatedMember = await member.save();
+        return res.json({
+            success: true,
+            member: updatedMember,
+            message: 'Member is updated to Admin'
+        });
+
+    } catch (err) {
+        return next({
+            status: 500,
+            message: err.message
+        });
+    }
+});
 
 module.exports = MemberRouter;
