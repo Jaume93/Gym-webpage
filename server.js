@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const { errorHandler, authRole } = require('./middleware');
 require('dotenv').config();
+const cors = require('cors');
 
 
 //importar router
@@ -20,6 +21,7 @@ mongoose.connect(DB_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifi
     });
 
 //para leer los datos del body
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +32,7 @@ app.use('/membershipFees', MembershipFeeRouter);
 app.use('/members', MemberRouter);
 app.use('/services', ServiceRouter);
 app.get('*', (req, res) => {
-    res.end('This was not found');
+    res.send('This was not found');
 });
 app.use(errorHandler);
 
