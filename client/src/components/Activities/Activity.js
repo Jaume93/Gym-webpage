@@ -17,14 +17,17 @@ const Activity = () => {
 
     return (
         <div>
-            <p> {activity._id}</p>
             <p> {activity.activityName}</p>
+            <h3>Fees allowed</h3>
+            {/* Hacer Loop de cada actividad para coger todas las Fee.
+            Cogemos la Fee, su index y la array y si el index es menor que array length entonces pone una , destras de la Fee y sino un . */}
+            <p>{activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
             <p>Type: {activity.type}</p>
             <p>Duration: {activity.duration} min</p>
             <p>Start Time: {activity.startTime}</p>
             <p>Location: {activity.location}</p>
             <p>Capacity: {activity.maxCapacity}</p>
-            <p>Fee: {activity.membFee}</p>
+
         </div>
     );
 };

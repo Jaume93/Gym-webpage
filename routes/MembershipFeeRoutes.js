@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { checkToken, authRole } = require('../middleware');
 
 //Get all Fees
-MembershipFeeRouter.get('/', async (req, res) => {
+MembershipFeeRouter.get('/', async (req, res, next) => {
     // MembershipFee.find({})
     //     .then(membershipFees => {
     //         return res.json({
@@ -28,37 +28,63 @@ MembershipFeeRouter.get('/', async (req, res) => {
     }
 });
 
-//Create Fee
-MembershipFeeRouter.post('/create', checkToken, authRole, async (req, res, next) => {
-    const { name, pvp } = req.body;
-    const { id } = req.user;
+//Get Fee By ID
+MembershipFeeRouter.get('/find/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        let membFee = await MembershipFee.findById(id)
 
-    if (!name || !pvp) {
+        return res.json({
+            success: true,
+            membFee
+        });
+    } catch (err) {
         return next({
-            status: 403,
-            message: 'Fill the required information'
+            status: 404,
+            message: err.message
         })
     }
-
-    let membershipFee = new MembershipFee({
-        name,
-        pvp
-    })
-
-    let newMembershipFee = await membershipFee.save();
-    return res.json({
-        success: true,
-        membershipFee: newMembershipFee
-    })
 });
 
+//Create Fee
+MembershipFeeRouter.post('/create', checkToken, authRole, async (req, res, next) => {
+    try {
+        const { name, pvp, description } = req.body;
+        const { id } = req.user;
+
+        if (!name || !pvp || !description) {
+            return next({
+                status: 403,
+                message: 'Fill the required information'
+            })
+        }
+
+        let membershipFee = new MembershipFee({
+            name,
+            pvp,
+            description
+        })
+
+        let newMembershipFee = await membershipFee.save();
+        return res.json({
+            success: true,
+            membershipFee: newMembershipFee
+        })
+
+    } catch (err) {
+        return next({
+            status: 404,
+            message: err.message
+        });
+    }
+});
 //Actualizar Quota
 MembershipFeeRouter.put('/modify/:id', checkToken, authRole, async (req, res, next) => {
     try {
         const { membId } = req.user.id;
         const { id } = req.params;
         // let id = req.params.id;
-        const { name, pvp } = req.body;
+        const { name, pvp, description } = req.body;
         const fee = await MembershipFee.findById(id);
 
         if (name) {
@@ -66,6 +92,9 @@ MembershipFeeRouter.put('/modify/:id', checkToken, authRole, async (req, res, ne
         }
         if (pvp) {
             fee.pvp = pvp;
+        }
+        if (description) {
+            fee.description = description;
         }
 
         const updatedFee = await fee.save();

@@ -104,7 +104,7 @@ MemberRouter.post('/login', async (req, res, next) => {
         });
     }
     //creamos un token para el usuario que lo buscamos por el id y tendra acceso durante 24h
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24h" });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24d" });
 
     return res.json({
         success: true,

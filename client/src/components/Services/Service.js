@@ -9,7 +9,7 @@ const Service = () => {
 
     useEffect(() => {
         const getService = async () => {
-            const response = await axios(`http://localhost:5000/activities/find/${serviceId}`);
+            const response = await axios(`http://localhost:5000/services/find/${serviceId}`);
             setService(response.data.service)
         };
         getService();
@@ -17,10 +17,10 @@ const Service = () => {
 
     return (
         <div>
-            <p> {service._id}</p>
             <p> {service.serviceName}</p>
             <p>Description: {service.description}</p>
-            <p>Fee: {service.membFee}</p>
+            <h3>Fees allowed</h3>
+            <p>{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
         </div>
     );
 };

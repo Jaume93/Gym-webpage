@@ -23,7 +23,6 @@ let checkToken = (req, res, next) => {
                 message: 'Token is not valid'
             });
         }
-        //console.log(decoded)
         // req.user nos da la id del usuario que ha echo log in
         req.user = decoded;
         next();
