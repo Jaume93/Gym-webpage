@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import '../Activities/Activities.css';
 
 const Activities = () => {
 
@@ -17,7 +18,7 @@ const Activities = () => {
 
     return (
         <div>
-            <h1>Activities</h1>
+            <h2>Activities</h2>
             <ul>
                 {activities.map(activity => {
                     return (

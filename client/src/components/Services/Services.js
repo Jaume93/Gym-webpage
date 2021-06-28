@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import '../Services/Services.css';
 
 const Services = () => {
 
@@ -17,7 +18,7 @@ const Services = () => {
 
     return (
         <div>
-            <h1>services</h1>
+            <h2>Services</h2>
             <ul>
                 {services.map(service => {
                     return (

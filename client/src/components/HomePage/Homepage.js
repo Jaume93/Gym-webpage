@@ -1,5 +1,6 @@
 import React from 'react';
 import Activities from '../Activities/Activities';
+import '../HomePage/Homepage.css';
 
 const Homepage = () => {
     return (

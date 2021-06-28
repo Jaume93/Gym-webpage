@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import NavBar from './components/Navbar/Navbar';
 import LogIn from './components/Log In/LogIn';
 import SignUp from './components/Sign Up/SignUp';
@@ -20,10 +19,9 @@ import {
 const App = () => {
   return (
     <>
-      <Router>
-        <NavBar />
-        <div className="App">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="App">
+        <Router>
+          <NavBar />
 
           <Switch>
             <Route path="/" exact={true}> <Homepage /> </Route>
@@ -44,9 +42,11 @@ const App = () => {
 
             <Route path="/membershipFees/moreInfo/:membFeeId"> <MembershipFee /> </Route>
           </Switch>
+
           <Footer />
-        </div >
-      </Router >
+
+        </Router >
+      </div >
     </>
   );
 }
