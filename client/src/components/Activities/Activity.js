@@ -27,7 +27,6 @@ const Activity = () => {
             <p>Start Time: {activity.startTime}</p>
             <p>Location: {activity.location}</p>
             <p>Capacity: {activity.maxCapacity}</p>
-
         </div>
     );
 };

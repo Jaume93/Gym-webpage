@@ -21,10 +21,9 @@ const MembershipFees = () => {
             <ul>
                 {membershipFees.map(membershipFee => {
                     return (
-                        <div>
+                        <div key={membershipFee._id}>
                             <p> {membershipFee.name}</p>
-                            <p>{membershipFee.pvp}€</p>
-                            <Link key={membershipFee._id} to={`/membershipFees/find/${membershipFee._id}`}>
+                            <Link to={`/membershipFees/find/${membershipFee._id}`}>
                                 <button>More Info</button>
                             </Link>
                         </div>

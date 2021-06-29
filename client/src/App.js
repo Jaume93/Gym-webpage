@@ -40,7 +40,7 @@ const App = () => {
 
             <Route path="/membershipFees" exact={true}> <MembershipFees /> </Route>
 
-            <Route path="/membershipFees/moreInfo/:membFeeId"> <MembershipFee /> </Route>
+            <Route path="/membershipFees/find/:membFeeId"> <MembershipFee /> </Route>
           </Switch>
 
           <Footer />

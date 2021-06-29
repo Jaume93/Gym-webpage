@@ -9,16 +9,16 @@ const MembershipFee = () => {
 
     useEffect(() => {
         const getMembFee = async () => {
-            const response = await axios(`http://localhost:5000/membFee/moreInfo/${membFeeId}`);
-            setMembFee(response.data.membFee)
+            const response = await axios(`http://localhost:5000/membershipFees/find/${membFeeId}`);
+            setMembFee(response.data.membFee);
         };
         getMembFee();
     });
 
     return (
         <div>
-            <p> {membFee.namee}</p>
-            <p> {membFee.pvp}€</p>
+            <p> {membFee.name}</p>
+            <p> {membFee.pvp} €</p>
             <p> {membFee.description}</p>
         </div>
     );
