@@ -15,7 +15,7 @@ const ActivitySchedule = () => {
     }, [])
 
     return (
-        <div className="mt-5">
+        <div className="mt-4">
             <h4>Activity Schedule</h4>
             <table className="table">
                 <thead>
