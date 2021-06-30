@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../Sign Up/SignUp.css';
+import MembershipFees from '../Fees/Membership_Fees';
+
 
 const SignUp = (props) => {
 
@@ -9,18 +11,28 @@ const SignUp = (props) => {
     const [last_name, setLast_name] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [membFee, setMembFee] = useState("")
 
     const handlerClick = async (e) => {
+        //Esto hace que no se refresque la pagina
+        e.preventDefault();
         try {
-            //Esto hace que no se refresque la pagina
-            e.preventDefault();
+            const body = {
+                user_name,
+                last_name,
+                email,
+                password,
+                membFee
+            }
 
-            const response = await axios.post("http://localhost:5000/members/signup");
+            const response = await axios.post("http://localhost:5000/members/signup", body);
+            console.log(response)
 
         } catch (err) {
             console.log(err.response.data)
         }
     }
+
 
     return (
         <div>
@@ -40,7 +52,7 @@ const SignUp = (props) => {
                         />
 
                         <label htmlFor="exampleInputLastName">Last Name:</label>
-                        <input type="last_name"
+                        <input type="text"
                             className="form-control"
                             id=""
                             required minLength="2"
@@ -68,6 +80,21 @@ const SignUp = (props) => {
                             value={password}
                             onChange={(e) => { setPassword(e.target.value) }}
                         />
+                        <label htmlFor="exampleInputPassword">Fee:</label>
+                        <select name="membFee"
+                            className="form-control"
+                            id="membFee_signUp">
+                            value={membFee}
+                            onChange={(e) => { setMembFee(e.target.value) }}
+
+                            <option value=""> Select your Membership Fee </option>
+                            {/* {membershipFees.map(fee => {
+                                return (
+                                    <option value="Fee">  {fee.name} </option>
+                                )
+                            })} */}
+
+                        </select>
 
                         <Link to={`/LogIn`}>
                             <input

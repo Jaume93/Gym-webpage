@@ -26,7 +26,7 @@ MemberRouter.get('/', checkToken, authRole, async (req, res, next) => {
     }
 });
 
-//Sign in member
+//Sign up member
 MemberRouter.post('/signup', async (req, res, next) => {
     try {
         const { name, lastName, email, password, membFee } = req.body;

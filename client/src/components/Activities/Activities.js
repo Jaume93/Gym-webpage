@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import '../Activities/Activities.css';
+import ActivityCard from '../Activities/ActivityCard';
 
 const Activities = () => {
 
@@ -20,23 +20,11 @@ const Activities = () => {
         <div>
             <h2 className="mt-4">Activities</h2>
 
-            {activities.map(activity => {
+            {activities.map(test => {
                 return (
-                    <div className="mt-4">
-                        <div class="card bg-dark text-white">
-                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img" alt="picture" />
-                            <div class="card-img-overlay">
-                                <Link key={activity._id} to={`/activities/find/${activity._id}`}>
-                                    <h5 class="card-title">{activity.activityName}</h5>
-                                </Link>
-                                <p class="card-text">{activity.duration} minutes</p>
-                                <p class="card-text">{activity.startTime}</p>
-                            </div>
-                        </div>
-                    </div>);
+                    <ActivityCard activity={test} />
+                )
             })}
-
-
         </div>
     );
 };

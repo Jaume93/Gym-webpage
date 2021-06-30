@@ -4,6 +4,9 @@ const ActivitySchema = new mongoose.Schema({
     activityName: {
         type: String
     },
+    description: {
+        type: String
+    },
     type: {
         type: String
     },

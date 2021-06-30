@@ -37,7 +37,7 @@ ActivityRouter.put('/resetPartakers', async (req, res, next) => {
 ActivityRouter.get('/', async (req, res, next) => {
     try {
         const activities = await Activity.find({})
-            .select(['activityName', 'duration', 'startTime']);
+            .select(['activityName', 'description', 'duration', 'startTime', 'location']);
         return res.json({
             success: true,
             activities
@@ -107,11 +107,11 @@ ActivityRouter.get('/yourActivities', checkToken, async (req, res, next) => {
 ActivityRouter.post('/create', checkToken, authRole, async (req, res, next) => {
     try {
         const { id } = req.user;
-        const { activityName, type, membFee, duration, startTime, location, maxCapacity } = req.body;
+        const { activityName, description, type, membFee, duration, startTime, location, maxCapacity } = req.body;
         let activityTime = new Date()
         activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
 
-        if (!activityName || !type || !membFee || !duration || !startTime || !location || !maxCapacity) {
+        if (!activityName || !description || !type || !membFee || !duration || !startTime || !location || !maxCapacity) {
             return next({
                 status: 403,
                 message: 'fill the required information'
@@ -119,6 +119,7 @@ ActivityRouter.post('/create', checkToken, authRole, async (req, res, next) => {
         }
         const activity = new Activity({
             activityName,
+            description,
             type,
             membFee,
             duration,
@@ -147,12 +148,15 @@ ActivityRouter.put('/modify/:id', checkToken, authRole, async (req, res, next) =
     try {
         const id = req.params.id;
         const { membId } = req.user.id;
-        const { activityName, membFee, duration, startTime, maxCapacity } = req.body;
+        const { activityName, description, membFee, duration, startTime, maxCapacity } = req.body;
 
         let activity = await Activity.findById(id);
 
         if (activityName) {
             activity.activityName = activityName;
+        }
+        if (description) {
+            activity.description = description;
         }
         if (membFee) {
             activity.membFee = membFee;
