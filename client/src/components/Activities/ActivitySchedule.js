@@ -37,19 +37,25 @@ const ActivitySchedule = () => {
                                     de los minutos hacemos lo mismo  */}
                                     {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}
                                 </td>
-                                <Link key={activity._id} to={`/activities/find/${activity._id}`}>
-                                    <td>
+                                <td>
+                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
                                         {activity.location === "Room A" ? activity.activityName : ""}
-                                    </td>
-                                </Link>
-                                <td>
-                                    {activity.location === "Room B" ? activity.activityName : ""}
+                                    </Link>
                                 </td>
                                 <td>
-                                    {activity.location === "Room C" ? activity.activityName : ""}
+                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                        {activity.location === "Room B" ? activity.activityName : ""}
+                                    </Link>
                                 </td>
                                 <td>
-                                    {activity.location === "Pool" ? activity.activityName : ""}
+                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                        {activity.location === "Room C" ? activity.activityName : ""}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                        {activity.location === "Pool" ? activity.activityName : ""}
+                                    </Link>
                                 </td>
                             </tr>);
                     })}

@@ -11,7 +11,12 @@ const Activity = () => {
 
     useEffect(() => {
         const getActivity = async () => {
-            const response = await axios(`http://localhost:5000/activities/find/${activityId}`);
+            const token = localStorage.getItem("token")
+            const response = await axios(`http://localhost:5000/activities/find/${activityId}`, {
+                headers: {
+                    "Authorization": token
+                }
+            });
             setActivity(response.data.activity)
         };
         getActivity();

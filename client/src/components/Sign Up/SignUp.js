@@ -1,32 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import '../Sign Up/SignUp.css';
-import MembershipFees from '../Fees/Membership_Fees';
-
+import { Link } from 'react-router-dom';
 
 const SignUp = (props) => {
 
-    const [user_name, setUser_name] = useState("")
-    const [last_name, setLast_name] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [membFee, setMembFee] = useState("")
+    let history = useHistory();
+
+    const [user_name, setUser_name] = useState("");
+    const [last_name, setLast_name] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [membFee, setMembFee] = useState("");
+    const [select, setSelect] = useState([]);
+
+    useEffect(() => {
+        const getSelect = async () => {
+            const response = await axios("http://localhost:5000/membershipFees/");
+            console.log(response);
+            setSelect(response.data.membershipFees);
+        }
+        getSelect();
+    }, [])
 
     const handlerClick = async (e) => {
         //Esto hace que no se refresque la pagina
         e.preventDefault();
         try {
             const body = {
-                user_name,
-                last_name,
+                name: user_name,
+                lastName: last_name,
                 email,
                 password,
                 membFee
             }
-
             const response = await axios.post("http://localhost:5000/members/signup", body);
             console.log(response)
+
+            setTimeout(() => {
+                history.push("/LogIn");
+            }, 2000);
 
         } catch (err) {
             console.log(err.response.data)
@@ -83,30 +97,37 @@ const SignUp = (props) => {
                         <label htmlFor="exampleInputPassword">Fee:</label>
                         <select name="membFee"
                             className="form-control"
-                            id="membFee_signUp">
+                            id="membFee_signUp"
                             value={membFee}
-                            onChange={(e) => { setMembFee(e.target.value) }}
+                            onChange={(e) => { setMembFee(e.currentTarget.value) }}>
 
                             <option value=""> Select your Membership Fee </option>
-                            {/* {membershipFees.map(fee => {
-                                return (
-                                    <option value="Fee">  {fee.name} </option>
-                                )
-                            })} */}
 
+                            {select.map(fee => {
+                                return (
+                                    <option key={fee._id} value={fee._id}>  {fee.name} </option>
+                                )
+                            })}
                         </select>
 
+                        <input
+                            type="submit"
+                            value="Sign Up"
+                            className="btn btn-warning"
+                            onClick={handlerClick}
+                        />
+                        <p className="mt-4">Already have an Account?</p>
+
                         <Link to={`/LogIn`}>
-                            <input
-                                type="submit"
-                                value="Sign Up"
-                                className="btn btn-warning"
-                                onClick={handlerClick}
-                            />
+                            <p>
+                                Log In Here
+                            </p>
                         </Link>
+
+
                     </div>
                 </form>
-            </div>
+            </div >
         </div >
     );
 };

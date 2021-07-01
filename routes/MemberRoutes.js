@@ -103,7 +103,7 @@ MemberRouter.post('/login', async (req, res, next) => {
             message: 'Wrong Credentials (password)'
         });
     }
-    //creamos un token para el usuario que lo buscamos por el id y tendra acceso durante 24h
+    //creamos un token para el usuario que lo buscamos por el id y tendra acceso durante 24dias
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24d" });
 
     return res.json({
