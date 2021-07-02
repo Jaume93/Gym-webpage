@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
-const MembershipFee = () => {
+const MembershipFee = ({ user, getUser }) => {
     const { membFeeId } = useParams();
+
+    let history = useHistory();
 
     const [membFee, setMembFee] = useState({});
 
@@ -15,11 +17,35 @@ const MembershipFee = () => {
         getMembFee();
     });
 
+    const handlerClickDelete = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token")
+            const response = await axios.delete(`http://localhost:5000/membershipFees/delete/${membFeeId}`, {
+                headers: {
+                    "Authorization": token
+                }
+            });
+
+            getUser();
+
+            history.push("/");
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+
     return (
         <div>
             <p> {membFee.name}</p>
             <p> {membFee.pvp} €</p>
             <p> {membFee.description}</p>
+            {user?.role === 1 ? <button>Modify</button> : ""}
+            {user?.role === 1 ? <button
+                onClick={handlerClickDelete}>
+                Delete
+            </button> : ""}
+
         </div>
     );
 };

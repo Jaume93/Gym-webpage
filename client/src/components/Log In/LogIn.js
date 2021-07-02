@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import '../Log In/LogIn.css';
 
-const LogIn = () => {
+const LogIn = ({ getUser }) => {
 
     const history = useHistory();
 
@@ -22,6 +22,8 @@ const LogIn = () => {
             const response = await axios.post("http://localhost:5000/members/login", body);
             console.log(response)
             localStorage.setItem("token", response.data.token)
+
+            getUser();
 
             //si los datos coinciden con los que se ha inscrito el usuario, en 2seg se Logea y va a la pag HomePage
             setTimeout(() => {

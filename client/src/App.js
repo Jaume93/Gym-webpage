@@ -15,8 +15,30 @@ import {
   Route,
   Switch
 } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const App = () => {
+
+  const [user, setUser] = useState();
+
+  const getUser = async () => {
+    const token = localStorage.getItem('token')
+    const response = await axios(`http://localhost:5000/members/yourInfo`, {
+      headers: {
+        "Authorization": token
+      }
+    })
+    setUser(response.data.member)
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      getUser()
+    }
+
+  }, []);
+
   return (
     <>
       <div className="App">
@@ -26,21 +48,23 @@ const App = () => {
           <Switch>
             <Route path="/" exact={true}> <Homepage /> </Route>
 
-            <Route path="/LogIn"> <LogIn /> </Route>
+            <Route path="/LogIn"> <LogIn getUser={getUser} /> </Route>
 
             <Route path="/SignUp"> <SignUp /> </Route>
 
             <Route path="/activities" exact={true}> <Activities /> </Route>
 
-            <Route path="/activities/find/:activityId"> <Activity /> </Route>
+            <Route path="/activities/find/:activityId"> <Activity user={user} getUser={getUser} /> </Route>
 
             <Route path="/services" exact={true}> <Services /> </Route>
 
-            <Route path="/services/find/:serviceId"> <Service /> </Route>
+            <Route path="/services/find/:serviceId"> <Service user={user} getUser={getUser} /> </Route>
 
             <Route path="/membershipFees" exact={true}> <MembershipFees /> </Route>
 
-            <Route path="/membershipFees/find/:membFeeId"> <MembershipFee /> </Route>
+            <Route path="/membershipFees/find/:membFeeId"> <MembershipFee user={user} getUser={getUser} /> </Route>
+
+            <Route path="*" component={() => "404 NOT FOUND"}></Route>
           </Switch>
 
           <Footer />

@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
-const Activity = () => {
+const Activity = ({ user, getUser }) => {
     const { activityId } = useParams();
+
+    let history = useHistory();
 
     const [activity, setActivity] = useState({});
 
@@ -20,7 +22,23 @@ const Activity = () => {
             setActivity(response.data.activity)
         };
         getActivity();
-    });
+    }, []);
+
+    const handlerClickDelete = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token")
+            const response = await axios.delete(`http://localhost:5000/activities/delete/${activityId}`, {
+                headers: {
+                    "Authorization": token
+                }
+            });
+            getUser();
+            history.push("/");
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
 
     return (
         <div className="mt-4">
@@ -39,6 +57,8 @@ const Activity = () => {
             <div>
                 {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}
             </div>
+            {user?.role === 1 ? <button>Modify</button> : ""}
+            {user?.role === 1 ? <button onClick={handlerClickDelete}>Delete</button> : ""}
         </div>
     );
 };
