@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import React from "react";
 import '../Navbar/Navbar.css';
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -24,16 +25,25 @@ const NavBar = () => {
                         <li>
                             <Link to="/Services">Services</Link>
                         </li>
-                        <li>
-                            <Link to="/LogIn">Log In</Link>
-                        </li>
-                        <li>
-                            <Link to="/SignUp">Sign Up</Link>
-                        </li>
+
+                        {/* enseña el perfil del miembro si esta Log in y esconde Log in / Sign in*/}
+                        {user ?
+                            <li>
+                                <Link to="/member/yourInfo">Your Information</Link>
+                            </li> :
+                            <div>
+                                <li>
+                                    <Link to="/LogIn">Log In</Link>
+                                </li>
+                                <li>
+                                    <Link to="/SignUp">Sign Up</Link>
+                                </li>
+                            </div>
+                        }
                     </ul>
                 </div>
             </div>
-        </nav>);
+        </nav >);
 };
 export default NavBar;
 

@@ -24,6 +24,38 @@ const Activity = ({ user, getUser }) => {
         getActivity();
     }, []);
 
+    const handlerClickTakePart = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token")
+            const response = await axios.put(`http://localhost:5000/activities/${activityId}/signupActivity`, {}, {
+                headers: {
+                    "Authorization": token
+                }
+            });
+            getUser();
+            history.push(`/activity/${activityId}/signedUpActivity`);
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+
+    const handlerClickModify = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token")
+            const response = await axios.put(`http://localhost:5000/activities/modify/${activityId}`, {}, {
+                headers: {
+                    "Authorization": token
+                }
+            });
+            getUser();
+            history.push("/modify/activity/${activityId}");
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+
     const handlerClickDelete = async (e) => {
         e.preventDefault();
         try {
@@ -57,8 +89,24 @@ const Activity = ({ user, getUser }) => {
             <div>
                 {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}
             </div>
-            {user?.role === 1 ? <button>Modify</button> : ""}
-            {user?.role === 1 ? <button onClick={handlerClickDelete}>Delete</button> : ""}
+
+            {user?.role === 0 ? <button
+                className="mx-4 my-3 btn btn-success"
+                onClick={handlerClickTakePart}>
+                Take Part
+            </button> : ""}
+
+            {user?.role === 1 ? <button
+                className="mx-4 my-3 btn btn-warning"
+                onClick={handlerClickModify}>
+                Modify
+            </button> : ""}
+
+            {user?.role === 1 ? <button
+                className="mx-4 my-3 btn btn-danger"
+                onClick={handlerClickDelete}>
+                Delete
+            </button> : ""}
         </div>
     );
 };

@@ -41,7 +41,7 @@ const LogIn = ({ getUser }) => {
             <div className="card col-12 col-lg-4 login-card mt-4 hv-center">
                 <form>
                     <div className="form-group text-left">
-                        <label htmlFor="exampleInputEmail">Email:</label>
+                        <label htmlFor="exampleInputEmail">Email</label>
                         <input type="email"
                             className="form-control"
                             id="email"
@@ -50,7 +50,7 @@ const LogIn = ({ getUser }) => {
                             value={email}
                             onChange={(e) => { setEmail(e.target.value) }}
                         />
-                        <label htmlFor="exampleInputPassword">Password:</label>
+                        <label htmlFor="exampleInputPassword">Password</label>
                         <input type="password"
                             className="form-control"
                             id="password"
@@ -62,14 +62,14 @@ const LogIn = ({ getUser }) => {
                         <input
                             type="submit"
                             value="Log In"
-                            className="btn btn-warning"
+                            className="my-3 btn btn-dark"
                             onClick={handlerClick}
                         />
 
                         <h2>Still not a Member?</h2>
                         <p>Welcome to Master Gym. An experience with all kinds of services to take care of your well-being: medical fitness, nutrition advice and personal training service. In addition, you can enjoy a wide variety of directed activities as well as a room dedicated solely to taking care of your body and soul. </p>
                         <Link to={`/SignUp`}>
-                            <input className="btn btn-success" type="submit" value="Sign Up"></input>
+                            <input className="mb-4 btn btn-secondary" type="submit" value="Sign Up"></input>
                         </Link>
                     </div>
                 </form>

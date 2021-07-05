@@ -113,17 +113,18 @@ const SignUp = (props) => {
                         <input
                             type="submit"
                             value="Sign Up"
-                            className="btn btn-warning"
+                            className=" mt-3 btn btn-dark"
                             onClick={handlerClick}
                         />
-                        <p className="mt-4">Already have an Account?</p>
+                        <div className="mt-4">
+                            <div >Already have an Account?</div>
 
-                        <Link to={`/LogIn`}>
-                            <p>
-                                Log In Here
-                            </p>
-                        </Link>
-
+                            <Link to={`/LogIn`}>
+                                <button type="button" className="btn btn-link">
+                                    Log In Here
+                                </button>
+                            </Link>
+                        </div>
 
                     </div>
                 </form>

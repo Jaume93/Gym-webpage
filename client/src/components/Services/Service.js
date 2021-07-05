@@ -39,8 +39,16 @@ const Service = ({ user, getUser }) => {
             <p>Description: {service.description}</p>
             <h3>Fees allowed</h3>
             <p>{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
-            {user?.role === 1 ? <button>Modify</button> : ""}
-            {user?.role === 1 ? <button onClick={handlerClickDelete}>Delete</button> : ""}
+            {user?.role === 1 ? <button
+                className="mx-4 my-3 btn btn-warning">
+                Modify
+            </button> : ""}
+
+            {user?.role === 1 ? <button
+                className="mx-4 my-3 btn btn-danger"
+                onClick={handlerClickDelete}>
+                Delete
+            </button> : ""}
         </div>
     );
 };
