@@ -3,9 +3,9 @@ import '../Footer/Footer.css';
 
 const Footer = () => {
     return (
-        <footer className="mt-5" >
+        <footer className="mt-4" >
             <div className="p-1">
-                <div className="mt-3 d-flex flex-row justify-content-evenly">
+                <div className="mt-2 d-flex flex-row justify-content-evenly">
                     <div>
                         <a target="_blank" href="https://www.instagram.com">
                             <svg xmlns=" http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-instagram" viewBox="0 0 16 16">
@@ -35,7 +35,7 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-                <h4 className="mt-3">KEEP IN CONTACT WITH US</h4>
+                <h4 className="mt-2">KEEP IN CONTACT WITH US</h4>
             </div>
         </footer >
     );

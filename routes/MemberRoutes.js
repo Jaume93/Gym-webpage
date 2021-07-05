@@ -112,7 +112,7 @@ MemberRouter.post('/login', async (req, res, next) => {
     });
 })
 
-// Get info of Login Member
+// Get info of Member Logged In
 MemberRouter.get('/yourInfo', checkToken, async (req, res, next) => {
     try {
         const { id } = req.user;

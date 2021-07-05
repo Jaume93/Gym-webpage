@@ -17,14 +17,14 @@ const MembershipFees = () => {
 
     return (
         <div>
-            <h2>Membership Fees</h2>
+            <h2 className="mt-5">Membership Fees</h2>
             <ul>
                 {membershipFees.map(membershipFee => {
                     return (
-                        <div key={membershipFee._id} className="mt-2">
-                            <h3> {membershipFee.name}</h3>
+                        <div key={membershipFee._id} >
+                            <h3 className="mt-5"> {membershipFee.name}</h3>
                             <Link to={`/membershipFees/find/${membershipFee._id}`}>
-                                <button className=" mb-4 btn btn-info">More Info</button>
+                                <button className=" my-2 btn btn-info">More Info</button>
                             </Link>
                         </div>
                     );

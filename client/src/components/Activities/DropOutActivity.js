@@ -23,13 +23,10 @@ const DropOutActivity = () => {
 
     return (
         <div>
-            <h2>Signed Up</h2>
-            <div>
-                You successfuly quitted the activity {activity.activityName}.
-            </div>
-
+            <h2 className="mt-5">Quitted</h2>
+            <p className="mt-4"> You successfuly quitted the activity {activity.activityName}. </p>
             <Link to="/activities">
-                <button className="mx-4 my-3 btn btn-danger">Go to Activities</button>
+                <button className="mx-4 my-3 btn btn-info">Go to Activities</button>
             </Link>
         </div >
     )

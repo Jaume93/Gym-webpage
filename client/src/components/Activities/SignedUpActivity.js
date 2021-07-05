@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import axios from "axios";
 
 const SignedUpActivity = ({ user, getUser }) => {
@@ -24,15 +24,15 @@ const SignedUpActivity = ({ user, getUser }) => {
         getActivity();
     }, []);
 
-    const handlerClickRemoveFromActivity = async (e) => {
+    const handlerClickQuitActivity = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity/`, {
+            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity/`, {}, {
                 headers: {
                     "Authorization": token
                 }
-            });
+            }); console.log(response);
             getUser();
             history.push(`/activity/${activityId}/dropOutActivity`)
         } catch (err) {
@@ -42,21 +42,24 @@ const SignedUpActivity = ({ user, getUser }) => {
 
     return (
         <div>
-            <h2>Signed Up</h2>
-            <div>
+            <h2 className="mt-5">Signed Up</h2>
+            <div className="mt-4">
                 You successfuly signed up to the activity {activity.activityName}.
             </div>
-            <div>
+            <div className="mt-3">
                 The starting time is: {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}.
             </div>
-            <div>
+            <div className="my-3">
                 Enjoy!
             </div>
             <button
-                className="mx-4 my-3 btn btn-danger"
-                onClick={handlerClickRemoveFromActivity}>
-                Remove from activity
+                className="m-4 my-3 btn btn-danger"
+                onClick={handlerClickQuitActivity}>
+                Quit activity
             </button>
+            <Link to="/activities">
+                <button className="m-4 my-3 btn btn-info">Go to Activities</button>
+            </Link>
         </div >
     )
 }

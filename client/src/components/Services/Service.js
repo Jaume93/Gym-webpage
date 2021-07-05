@@ -35,10 +35,10 @@ const Service = ({ user, getUser }) => {
 
     return (
         <div>
-            <p> {service.serviceName}</p>
-            <p>Description: {service.description}</p>
-            <h3>Fees allowed</h3>
-            <p>{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
+            <h2 className="mt-5"> {service.serviceName}</h2>
+            <p className="my-4">{service.description}</p>
+            <h4>Fees allowed</h4>
+            <p className="my-2">{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning">
                 Modify

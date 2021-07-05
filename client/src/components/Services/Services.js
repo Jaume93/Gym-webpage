@@ -18,16 +18,15 @@ const Services = () => {
 
     return (
         <div>
-            <h2>Services</h2>
-            <ul>
-                {services.map(service => {
-                    return (
-                        <Link key={service._id} to={`/services/find/${service._id}`}>
-                            <li> {service.serviceName}</li>
-                        </Link>
-                    )
-                })}
-            </ul>
+            <h2 className="mt-5">Services</h2>
+
+            {services.map(service => {
+                return (
+                    <Link key={service._id} to={`/services/find/${service._id}`}>
+                        <div className="my-3"> {service.serviceName}</div>
+                    </Link>
+                )
+            })}
         </div >
     );
 };

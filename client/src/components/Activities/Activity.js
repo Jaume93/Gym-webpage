@@ -11,6 +11,8 @@ const Activity = ({ user, getUser }) => {
 
     const time = new Date(activity.startTime)
 
+    console.log(user);
+
     useEffect(() => {
         const getActivity = async () => {
             const token = localStorage.getItem("token")
@@ -35,6 +37,22 @@ const Activity = ({ user, getUser }) => {
             });
             getUser();
             history.push(`/activity/${activityId}/signedUpActivity`);
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+
+    const handlerClickQuitActivity = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token")
+            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity`, {}, {
+                headers: {
+                    "Authorization": token
+                }
+            });
+            getUser();
+            history.push(`/activity/${activityId}/dropOutActivity`);
         } catch (err) {
             console.log(err.response.data)
         }
@@ -83,31 +101,42 @@ const Activity = ({ user, getUser }) => {
             </p>
             <p>Location: {activity.location}</p>
             <p>Capacity: {activity.maxCapacity}</p>
-            <h4>Fees allowed</h4>
+            <div>Fees allowed:</div>
             {/* Hacer Loop de cada actividad para coger todas las Fee.
             Cogemos la Fee, su index y la array y si el index es menor que array length entonces pone una , destras de la Fee y sino un . */}
-            <div>
-                {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}
-            </div>
+            <h3>
+                {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : ""))}
+            </h3>
 
-            {user?.role === 0 ? <button
+            {user?.role === 0 /* && user !== activity.partakers._id*/ ? < button
                 className="mx-4 my-3 btn btn-success"
                 onClick={handlerClickTakePart}>
                 Take Part
-            </button> : ""}
+            </button> : ""
+            }
+
+            {user?.role === 0 ? < button
+                className="mx-4 my-3 btn btn-danger"
+                onClick={handlerClickQuitActivity}>
+                Quit Activity
+            </button> : ""
+            }
 
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning"
                 onClick={handlerClickModify}>
                 Modify
-            </button> : ""}
+            </button> : ""
+            }
+
 
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-danger"
                 onClick={handlerClickDelete}>
                 Delete
-            </button> : ""}
-        </div>
+            </button> : ""
+            }
+        </div >
     );
 };
 
