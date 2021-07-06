@@ -17,7 +17,7 @@ const ActivityCard = ({ activity }) => {
                         <h2 className="card-title">{activity.activityName}</h2>
 
                         <h5 className="card-text">{activity.duration} minutes</h5>
-                        <h5 className="card-text">Start : {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}</h5>
+                        <h5 className="card-text">Start: {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}</h5>
                     </div>
                 </div>
             </div>

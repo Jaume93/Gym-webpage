@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import '../Activities/Activities.css';
 
 const Activity = ({ user, getUser }) => {
     const { activityId } = useParams();
@@ -91,8 +92,8 @@ const Activity = ({ user, getUser }) => {
     }
 
     return (
-        <div className="mt-4">
-            <h2> <b>{activity.activityName}</b></h2>
+        <div className="my-5">
+            <h1 className="activity_name"> {activity.activityName}</h1>
             <div className="mt-2"> <b>{activity.description}</b></div>
             <div className="mt-2">Type: <b>{activity.type}</b></div>
             <div className="mt-2">Duration: <b>{activity.duration} min</b></div>

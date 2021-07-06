@@ -16,8 +16,8 @@ const MembershipFees = () => {
     }, [])
 
     return (
-        <div>
-            <h2 className="mt-5">Membership Fees</h2>
+        <div className="my-5">
+            <h2>Membership Fees</h2>
             <ul>
                 {membershipFees.map(membershipFee => {
                     return (

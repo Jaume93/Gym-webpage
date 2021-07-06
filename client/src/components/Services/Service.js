@@ -34,8 +34,8 @@ const Service = ({ user, getUser }) => {
     }
 
     return (
-        <div>
-            <h2 className="mt-5"> {service.serviceName}</h2>
+        <div className="my-5">
+            <h2> {service.serviceName}</h2>
             <p className="my-4">{service.description}</p>
             <div>Fees allowed</div>
             <h4 className="my-2">{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " & " : ""))}</h4>

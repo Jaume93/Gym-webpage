@@ -1,7 +1,16 @@
-h2{
-    color: black;
-}
-p{
-    color: black;
+h2.mt-4{
+    color: rgb(129, 108, 108);
     font-weight: 700;
+}
+h2.card-title{
+    color: rgb(129, 108, 108);
+    font-weight: 700;
+}
+h1.activity_name {
+    color: rgb(129, 108, 108);
+    font-weight: 700; 
+}
+h5{
+    color: rgb(71, 68, 68);
+    font-weight: 600;
 }

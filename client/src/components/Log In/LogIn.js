@@ -28,7 +28,7 @@ const LogIn = ({ getUser }) => {
             //si los datos coinciden con los que se ha inscrito el usuario, en 2seg se Logea y va a la pag HomePage
             setTimeout(() => {
                 history.push("/");
-            }, 2000);
+            }, 1000);
 
         } catch (err) {
             console.log(err.response.data)

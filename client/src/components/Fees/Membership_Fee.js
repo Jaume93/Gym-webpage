@@ -36,9 +36,9 @@ const MembershipFee = ({ user, getUser }) => {
     }
 
     return (
-        <div>
-            <h2 className="mt-5"> {membFee.name}</h2>
-            <h2 className="my-4"> {membFee.pvp} €</h2>
+        <div className="my-5">
+            <h2> {membFee.name}</h2>
+            <h1 className="my-4"> {membFee.pvp} €</h1>
             <p> {membFee.description}</p>
 
             {user?.role === 1 ? <button

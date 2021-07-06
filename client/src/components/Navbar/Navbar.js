@@ -9,7 +9,7 @@ const NavBar = ({ user }) => {
     const LogOut = async () => {
         window.location.reload();
         try {
-            const token = localStorage.clear("token")
+            const token = localStorage.clear()
             history.push(`/`);
         } catch (err) {
             console.log(err)
