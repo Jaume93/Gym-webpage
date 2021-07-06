@@ -114,4 +114,6 @@ DELETE
 
 - Implement loader
 
+- Error at Log Out when its done in Member profile.
+
 - Finish style webpage & mediaQuery
