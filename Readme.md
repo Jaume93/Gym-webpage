@@ -101,7 +101,7 @@ DELETE
 ### TO DO    
 - Finish Home page  
 
--Sort Activities by hours
+- Sort Activities by hours
 
 - Routes admin:   
  * * Create activity / service / membership Fee
