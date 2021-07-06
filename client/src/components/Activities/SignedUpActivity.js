@@ -44,10 +44,10 @@ const SignedUpActivity = ({ user, getUser }) => {
         <div>
             <h2 className="mt-5">Signed Up</h2>
             <div className="mt-4">
-                You successfuly signed up to the activity {activity.activityName}.
+                You successfuly signed up to the activity <b>{activity.activityName}</b>.
             </div>
             <div className="mt-3">
-                The starting time is: {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}.
+                The starting time is: <b>{time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}</b>
             </div>
             <div className="my-3">
                 Enjoy!

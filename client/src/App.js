@@ -40,7 +40,9 @@ const App = () => {
     if (localStorage.getItem('token')) {
       getUser()
     }
-
+    axios.put(`http://localhost:5000/activities/resetPartakers`).then(response => {
+      console.log(response);
+    })
   }, []);
 
   return (

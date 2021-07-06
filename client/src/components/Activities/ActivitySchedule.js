@@ -31,29 +31,29 @@ const ActivitySchedule = () => {
                     {activities.map(activity => {
                         let time = new Date(activity.startTime)
                         return (
-                            <tr>
+                            <tr key={activity._id}>
                                 <td>
                                     {/* De la hora de la activity, la hora la convertimos a string si el length es 1 y le añadimos un 0 delante sino no hacemos nada.
                                     de los minutos hacemos lo mismo  */}
                                     {time.getHours().toString().length === 1 ? "0" + time.getHours() : time.getHours()}:{time.getMinutes().toString().length === 1 ? "0" + time.getMinutes() : time.getMinutes()}
                                 </td>
                                 <td>
-                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                    <Link to={`/activities/find/${activity._id}`}>
                                         {activity.location === "Room A" ? activity.activityName : ""}
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                    <Link to={`/activities/find/${activity._id}`}>
                                         {activity.location === "Room B" ? activity.activityName : ""}
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                    <Link to={`/activities/find/${activity._id}`}>
                                         {activity.location === "Room C" ? activity.activityName : ""}
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link key={activity._id} to={`/activities/find/${activity._id}`}>
+                                    <Link to={`/activities/find/${activity._id}`}>
                                         {activity.location === "Pool" ? activity.activityName : ""}
                                     </Link>
                                 </td>

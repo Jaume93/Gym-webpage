@@ -117,7 +117,7 @@ MemberRouter.get('/yourInfo', checkToken, async (req, res, next) => {
     try {
         const { id } = req.user;
         let member = await Member.findById(id)
-            .select(['-_id', '-password'])
+            .select('-password')
             .populate('membFee', ['name']);
         return res.json({
             success: true,

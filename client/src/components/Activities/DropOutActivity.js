@@ -10,14 +10,19 @@ const DropOutActivity = () => {
 
     useEffect(() => {
         const getActivity = async () => {
-            const token = localStorage.getItem("token")
-            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity`, {
-                headers: {
-                    "Authorization": token
-                }
-            });
-            setActivity(response.data.activity)
+            try {
+                const token = localStorage.getItem("token")
+                const response = await axios(`http://localhost:5000/activities/find/${activityId}`, {}, {
+                    headers: {
+                        "Authorization": token
+                    }
+                });
+                setActivity(response.data.activity)
+            } catch (err) {
+                console.log(err.response.data)
+            }
         };
+
         getActivity();
     }, []);
 
@@ -25,6 +30,7 @@ const DropOutActivity = () => {
         <div>
             <h2 className="mt-5">Quitted</h2>
             <p className="mt-4"> You successfuly quitted the activity {activity.activityName}. </p>
+            <p className="mt-4"></p>
             <Link to="/activities">
                 <button className="mx-4 my-3 btn btn-info">Go to Activities</button>
             </Link>
