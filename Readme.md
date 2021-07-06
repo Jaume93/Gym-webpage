@@ -97,3 +97,21 @@ DELETE
 */services/remove/:id*  -->  
    
 
+
+### TO DO    
+- Finish Home page  
+
+-Sort Activities by hours
+
+- Routes admin:   
+ * * Create activity / service / membership Fee
+ * * Modify activity / service / membership Fee
+ * * Upgrade a Member to be Admin
+
+- Implement a success/wrong messages at Log in & Sign Up / already signed up at activity & try to quit an activity when not signed in.
+
+- Modify personal info (email, password, membership Fee, Unsubscribe)
+
+- Implement loader
+
+- Finish style webpage & mediaQuery
