@@ -99,7 +99,7 @@ DELETE
 
 
 ### TO DO    
-- Finish Home page  
+- Finish Home page (hide button subscribe when user is logged in)
 
 - Sort Activities by hours
 
