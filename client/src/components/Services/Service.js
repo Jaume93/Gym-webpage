@@ -37,8 +37,8 @@ const Service = ({ user, getUser }) => {
         <div>
             <h2 className="mt-5"> {service.serviceName}</h2>
             <p className="my-4">{service.description}</p>
-            <h4>Fees allowed</h4>
-            <p className="my-2">{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}</p>
+            <div>Fees allowed</div>
+            <h4 className="my-2">{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " & " : ""))}</h4>
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning">
                 Modify
