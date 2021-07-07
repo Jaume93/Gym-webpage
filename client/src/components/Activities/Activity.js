@@ -106,9 +106,9 @@ const Activity = ({ user, getUser }) => {
             <div className="mt-2">Fees allowed:</div>
             {/* Hacer Loop de cada actividad para coger todas las Fee.
             Cogemos la Fee, su index y la array y si el index es menor que array length entonces pone una , destras de la Fee y sino un . */}
-            <h3>
+            <h4>
                 {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " & " : ""))}
-            </h3>
+            </h4>
 
             {console.log(activity.partakers?.indexOf(user?._id) == -1)}
             {user?.role !== 0

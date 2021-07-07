@@ -3,3 +3,7 @@ h2{
     font-weight: 700;;
 }
 
+h1.my-4{
+    font-weight: 700;
+    color: rgb(75, 74, 74);
+}

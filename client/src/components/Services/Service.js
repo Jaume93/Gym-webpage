@@ -34,7 +34,7 @@ const Service = ({ user, getUser }) => {
     }
 
     return (
-        <div className="my-5">
+        <div className="my-5 container">
             <h2> {service.serviceName}</h2>
             <p className="my-4">{service.description}</p>
             <div>Fees allowed</div>
