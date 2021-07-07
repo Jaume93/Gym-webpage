@@ -103,6 +103,8 @@ DELETE
 
 - Sort Activities by hours
 
+- Add route to see only the activities the member can do by it member Fee.
+
 - Routes admin:   
  * * Create activity / service / membership Fee
  * * Modify activity / service / membership Fee
