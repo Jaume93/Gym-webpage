@@ -41,7 +41,7 @@ const App = () => {
       getUser()
     }
     axios.put(`/api/activities/resetPartakers`).then(response => {
-      console.log(response);
+      // console.log(response);
     })
   }, []);
 

@@ -12,12 +12,12 @@ const SignUp = (props) => {
     const [last_name, setLast_name] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [membFee, setMembFee] = useState("");
+    const [membFee, setMembFee] = useState({});
     const [select, setSelect] = useState([]);
 
     useEffect(() => {
         const getSelect = async () => {
-            const response = await axios("/membershipFees/");
+            const response = await axios("/api/membershipFees");
             console.log(response);
             setSelect(response.data.membershipFees);
         }
@@ -46,7 +46,6 @@ const SignUp = (props) => {
             console.log(err.response.data)
         }
     }
-
 
     return (
         <div>
@@ -105,7 +104,7 @@ const SignUp = (props) => {
 
                             {select.map(fee => {
                                 return (
-                                    <option key={fee._id} value={fee._id}>  {fee.name} </option>
+                                    <option key={fee._id} value={fee._id}> {fee.name} </option>
                                 )
                             })}
                         </select>

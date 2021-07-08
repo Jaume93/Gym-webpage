@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ModifyActivity = ({ user, getUser }) => {
     const { activityId } = useParams();
-
-    let history = useHistory();
 
     const [activity, setActivity] = useState({});
 
@@ -38,7 +36,7 @@ const ModifyActivity = ({ user, getUser }) => {
             {/* Hacer Loop de cada actividad para coger todas las Fee.
             Cogemos la Fee, su index y la array y si el index es menor que array length entonces pone una , destras de la Fee y sino un . */}
             <div>
-                {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? ", " : "."))}
+                {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " / " : ""))}
             </div>
         </div>
     )

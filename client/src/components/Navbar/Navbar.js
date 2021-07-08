@@ -9,8 +9,8 @@ const NavBar = ({ user }) => {
     const LogOut = async () => {
         window.location.reload();
         try {
-            const token = localStorage.clear()
-            history.push(`/`);
+            localStorage.clear()
+            history.push(`/LogIn`);
         } catch (err) {
             console.log(err)
         }

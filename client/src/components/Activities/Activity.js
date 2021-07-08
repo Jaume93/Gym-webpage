@@ -113,7 +113,7 @@ const Activity = ({ user, getUser }) => {
             {/* {console.log(activity.partakers?.indexOf(user?._id) == -1)} */}
             {user?.role !== 0
                 ? ""
-                : activity.partakers?.indexOf(user?._id) == -1
+                : activity.partakers?.indexOf(user?._id) === -1
                     ? < button
                         className="mx-4 my-3 btn btn-success"
                         onClick={handlerClickTakePart}>
