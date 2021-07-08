@@ -35,8 +35,8 @@ const LogIn = ({ getUser }) => {
         }
     }
     return (
-        <div>
-            <h1>Master Gym</h1>
+        <div className="my-5">
+            <h1 className="mb-4">Master Gym</h1>
             <h2>Private Area</h2>
             <div className="card col-12 col-lg-4 login-card mt-4 hv-center">
                 <form>
