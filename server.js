@@ -28,10 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 
 //rutas
 //app.use(getAuth);
-app.use('/activities', ActivityRouter);
-app.use('/membershipFees', MembershipFeeRouter);
-app.use('/members', MemberRouter);
-app.use('/services', ServiceRouter);
+app.use('/api/activities', ActivityRouter);
+app.use('/api/membershipFees', MembershipFeeRouter);
+app.use('/api/members', MemberRouter);
+app.use('/api/services', ServiceRouter);
 app.get('*', (req, res) => {
     res.send('This was not found');
 });
