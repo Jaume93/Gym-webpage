@@ -12,7 +12,7 @@ const SignUp = (props) => {
     const [last_name, setLast_name] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [membFee, setMembFee] = useState({});
+    const [membFee, setMembFee] = useState("");
     const [select, setSelect] = useState([]);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const SignUp = (props) => {
                 password,
                 membFee
             }
-            const response = await axios.post("/members/signup", body);
+            const response = await axios.post("/api/members/signup", body);
             console.log(response)
 
             setTimeout(() => {

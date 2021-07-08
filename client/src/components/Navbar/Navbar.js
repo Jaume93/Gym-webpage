@@ -7,7 +7,6 @@ const NavBar = ({ user }) => {
     const history = useHistory();
 
     const LogOut = async () => {
-        window.location.reload();
         try {
             localStorage.clear()
             history.push(`/LogIn`);
