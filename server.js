@@ -32,9 +32,9 @@ app.use('/api/activities', ActivityRouter);
 app.use('/api/membershipFees', MembershipFeeRouter);
 app.use('/api/members', MemberRouter);
 app.use('/api/services', ServiceRouter);
-app.get('*', (req, res) => {
-    res.send('This was not found');
-});
+// app.get('*', (req, res) => {
+//     res.send('This was not found');
+// });
 app.use(errorHandler);
 
 app.use(express.static(path.join(__dirname, "client", "build")))
