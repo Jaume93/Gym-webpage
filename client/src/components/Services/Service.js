@@ -11,7 +11,7 @@ const Service = ({ user, getUser }) => {
 
     useEffect(() => {
         const getService = async () => {
-            const response = await axios(`/services/find/${serviceId}`);
+            const response = await axios(`/api/services/find/${serviceId}`);
             setService(response.data.service)
         };
         getService();
@@ -21,7 +21,7 @@ const Service = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`/services/delete/${serviceId}`, {
+            const response = await axios.delete(`/api/services/delete/${serviceId}`, {
                 headers: {
                     "Authorization": token
                 }

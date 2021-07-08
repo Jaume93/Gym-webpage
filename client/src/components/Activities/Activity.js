@@ -17,7 +17,7 @@ const Activity = ({ user, getUser }) => {
     useEffect(() => {
         const getActivity = async () => {
             const token = localStorage.getItem("token")
-            const response = await axios(`/activities/find/${activityId}`, {
+            const response = await axios(`/api/activities/find/${activityId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -31,13 +31,13 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`/activities/${activityId}/signupActivity`, {}, {
+            const response = await axios.put(`/api/activities/${activityId}/signupActivity`, {}, {
                 headers: {
                     "Authorization": token
                 }
             });
             getUser();
-            history.push(`/activity/${activityId}/signedUpActivity`);
+            history.push(`activity/${activityId}/signedUpActivity`);
         } catch (err) {
             console.log(err.response.data)
         }
@@ -47,13 +47,13 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`/activities/${activityId}/dropOutActivity`, {}, {
+            const response = await axios.put(`/api/activities/${activityId}/dropOutActivity`, {}, {
                 headers: {
                     "Authorization": token
                 }
             });
             getUser();
-            history.push(`/activity/${activityId}/dropOutActivity`);
+            history.push(`activity/${activityId}/dropOutActivity`);
         } catch (err) {
             console.log(err.response.data)
         }
@@ -63,13 +63,13 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`/activities/modify/${activityId}`, {}, {
+            const response = await axios.put(`/api/activities/modify/${activityId}`, {}, {
                 headers: {
                     "Authorization": token
                 }
             });
             getUser();
-            history.push("/modify/activity/${activityId}");
+            history.push("modify/activity/${activityId}");
         } catch (err) {
             console.log(err.response.data)
         }
@@ -79,7 +79,7 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`/activities/delete/${activityId}`, {
+            const response = await axios.delete(`/api/activities/delete/${activityId}`, {
                 headers: {
                     "Authorization": token
                 }

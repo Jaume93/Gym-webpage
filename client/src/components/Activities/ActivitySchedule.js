@@ -7,7 +7,7 @@ const ActivitySchedule = () => {
 
     useEffect(() => {
         const getActivities = async () => {
-            const response = await axios("/activities/");
+            const response = await axios("/api/activities/");
             console.log(response)
             setActivities(response.data.activities);
         }

@@ -9,7 +9,7 @@ const Services = () => {
 
     useEffect(() => {
         const getServices = async () => {
-            const response = await axios("/services/");
+            const response = await axios("/api/services/");
             console.log(response)
             setServices(response.data.services);
         }

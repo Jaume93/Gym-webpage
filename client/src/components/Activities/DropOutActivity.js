@@ -12,7 +12,7 @@ const DropOutActivity = () => {
         const getActivity = async () => {
             try {
                 const token = localStorage.getItem("token")
-                const response = await axios(`/activities/find/${activityId}`, {}, {
+                const response = await axios(`/api/activities/find/${activityId}`, {}, {
                     headers: {
                         "Authorization": token
                     }

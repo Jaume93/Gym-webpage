@@ -12,7 +12,7 @@ const MembershipFee = ({ user, getUser }) => {
 
     useEffect(() => {
         const getMembFee = async () => {
-            const response = await axios(`/membershipFees/find/${membFeeId}`);
+            const response = await axios(`/api/membershipFees/find/${membFeeId}`);
             setMembFee(response.data.membFee);
         };
         getMembFee();
@@ -22,7 +22,7 @@ const MembershipFee = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`/membershipFees/delete/${membFeeId}`, {
+            const response = await axios.delete(`/api/membershipFees/delete/${membFeeId}`, {
                 headers: {
                     "Authorization": token
                 }
