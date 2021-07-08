@@ -28,7 +28,7 @@ const App = () => {
 
   const getUser = async () => {
     const token = localStorage.getItem('token')
-    const response = await axios(`http://localhost:5000/members/yourInfo`, {
+    const response = await axios(`/members/yourInfo`, {
       headers: {
         "Authorization": token
       }
@@ -40,7 +40,7 @@ const App = () => {
     if (localStorage.getItem('token')) {
       getUser()
     }
-    axios.put(`http://localhost:5000/activities/resetPartakers`).then(response => {
+    axios.put(`/activities/resetPartakers`).then(response => {
       console.log(response);
     })
   }, []);

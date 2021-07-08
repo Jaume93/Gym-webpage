@@ -11,7 +11,7 @@ const Service = ({ user, getUser }) => {
 
     useEffect(() => {
         const getService = async () => {
-            const response = await axios(`http://localhost:5000/services/find/${serviceId}`);
+            const response = await axios(`/services/find/${serviceId}`);
             setService(response.data.service)
         };
         getService();
@@ -21,7 +21,7 @@ const Service = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`http://localhost:5000/services/delete/${serviceId}`, {
+            const response = await axios.delete(`/services/delete/${serviceId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -39,10 +39,10 @@ const Service = ({ user, getUser }) => {
             <p className="my-4">{service.description}</p>
             <div>Fees allowed</div>
             <h4 className="my-2">{service.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " & " : ""))}</h4>
-            {user?.role === 1 ? <button
+            {/* {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning">
                 Modify
-            </button> : ""}
+            </button> : ""} */}
 
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-danger"

@@ -9,7 +9,7 @@ const MembershipFees = () => {
 
     useEffect(() => {
         const getMembershipFees = async () => {
-            const response = await axios("http://localhost:5000/membershipFees/");
+            const response = await axios("/membershipFees/");
             setMembershipFees(response.data.membershipFees);
         }
         getMembershipFees();

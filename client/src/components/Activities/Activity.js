@@ -17,7 +17,7 @@ const Activity = ({ user, getUser }) => {
     useEffect(() => {
         const getActivity = async () => {
             const token = localStorage.getItem("token")
-            const response = await axios(`http://localhost:5000/activities/find/${activityId}`, {
+            const response = await axios(`/activities/find/${activityId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -31,7 +31,7 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`http://localhost:5000/activities/${activityId}/signupActivity`, {}, {
+            const response = await axios.put(`/activities/${activityId}/signupActivity`, {}, {
                 headers: {
                     "Authorization": token
                 }
@@ -47,7 +47,7 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity`, {}, {
+            const response = await axios.put(`/activities/${activityId}/dropOutActivity`, {}, {
                 headers: {
                     "Authorization": token
                 }
@@ -63,7 +63,7 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`http://localhost:5000/activities/modify/${activityId}`, {}, {
+            const response = await axios.put(`/activities/modify/${activityId}`, {}, {
                 headers: {
                     "Authorization": token
                 }
@@ -79,7 +79,7 @@ const Activity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`http://localhost:5000/activities/delete/${activityId}`, {
+            const response = await axios.delete(`/activities/delete/${activityId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -110,7 +110,7 @@ const Activity = ({ user, getUser }) => {
                 {activity.membFee?.map((fee, i, array) => fee.name + (i < array.length - 1 ? " & " : ""))}
             </h4>
 
-            {console.log(activity.partakers?.indexOf(user?._id) == -1)}
+            {/* {console.log(activity.partakers?.indexOf(user?._id) == -1)} */}
             {user?.role !== 0
                 ? ""
                 : activity.partakers?.indexOf(user?._id) == -1
@@ -126,12 +126,12 @@ const Activity = ({ user, getUser }) => {
                     </button>
             }
 
-            {user?.role === 1 ? <button
+            {/* {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning"
                 onClick={handlerClickModify}>
                 Modify
             </button> : ""
-            }
+            } */}
 
 
             {user?.role === 1 ? <button

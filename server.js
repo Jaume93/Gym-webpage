@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { errorHandler, authRole } = require('./middleware');
 require('dotenv').config();
 const cors = require('cors');
+const path = require("path");
 
 
 //importar router
@@ -35,5 +36,12 @@ app.get('*', (req, res) => {
     res.send('This was not found');
 });
 app.use(errorHandler);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'))
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 app.listen(PORT || 5000, () => console.log(`Now listening for requests on port ${PORT}`));

@@ -14,7 +14,7 @@ const SignedUpActivity = ({ user, getUser }) => {
     useEffect(() => {
         const getActivity = async () => {
             const token = localStorage.getItem("token")
-            const response = await axios(`http://localhost:5000/activities/find/${activityId}`, {
+            const response = await axios(`/activities/find/${activityId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -28,7 +28,7 @@ const SignedUpActivity = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.put(`http://localhost:5000/activities/${activityId}/dropOutActivity/`, {}, {
+            const response = await axios.put(`/activities/${activityId}/dropOutActivity/`, {}, {
                 headers: {
                     "Authorization": token
                 }

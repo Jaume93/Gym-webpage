@@ -12,7 +12,7 @@ const MembershipFee = ({ user, getUser }) => {
 
     useEffect(() => {
         const getMembFee = async () => {
-            const response = await axios(`http://localhost:5000/membershipFees/find/${membFeeId}`);
+            const response = await axios(`/membershipFees/find/${membFeeId}`);
             setMembFee(response.data.membFee);
         };
         getMembFee();
@@ -22,7 +22,7 @@ const MembershipFee = ({ user, getUser }) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token")
-            const response = await axios.delete(`http://localhost:5000/membershipFees/delete/${membFeeId}`, {
+            const response = await axios.delete(`/membershipFees/delete/${membFeeId}`, {
                 headers: {
                     "Authorization": token
                 }
@@ -42,10 +42,10 @@ const MembershipFee = ({ user, getUser }) => {
             <h1 className="my-4"> {membFee.pvp}€</h1>
             <p> {membFee.description}</p>
 
-            {user?.role === 1 ? <button
+            {/* {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-warning">
                 Modify
-            </button> : ""}
+            </button> : ""} */}
 
             {user?.role === 1 ? <button
                 className="mx-4 my-3 btn btn-danger"

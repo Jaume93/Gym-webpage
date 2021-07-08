@@ -9,7 +9,7 @@ const Activities = () => {
 
     useEffect(() => {
         const getActivities = async () => {
-            const response = await axios("http://localhost:5000/activities/");
+            const response = await axios("/activities/");
             console.log(response)
             setActivities(response.data.activities);
         }

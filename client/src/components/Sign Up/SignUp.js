@@ -17,7 +17,7 @@ const SignUp = (props) => {
 
     useEffect(() => {
         const getSelect = async () => {
-            const response = await axios("http://localhost:5000/membershipFees/");
+            const response = await axios("/membershipFees/");
             console.log(response);
             setSelect(response.data.membershipFees);
         }
@@ -35,7 +35,7 @@ const SignUp = (props) => {
                 password,
                 membFee
             }
-            const response = await axios.post("http://localhost:5000/members/signup", body);
+            const response = await axios.post("/members/signup", body);
             console.log(response)
 
             setTimeout(() => {

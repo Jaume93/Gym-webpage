@@ -9,7 +9,7 @@ const Services = () => {
 
     useEffect(() => {
         const getServices = async () => {
-            const response = await axios("http://localhost:5000/services/");
+            const response = await axios("/services/");
             console.log(response)
             setServices(response.data.services);
         }

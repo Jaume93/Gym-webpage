@@ -14,7 +14,7 @@ const ModifyActivity = ({ user, getUser }) => {
     useEffect(() => {
         const getActivity = async () => {
             const token = localStorage.getItem("token")
-            const response = await axios.put(`http://localhost:5000/activities/modify/${activityId}`, {}, {
+            const response = await axios.put(`/activities/modify/${activityId}`, {}, {
                 headers: {
                     "Authorization": token
                 }
