@@ -1,4 +1,4 @@
-# GYM v1.0
+# GYM v1.1
 
 This is the third project of Let's Coder Bootcamp.     
 This project is dedicated to represent a Gym webpage with its functions and utilities.    
@@ -96,12 +96,15 @@ PUT
 DELETE   
 */services/remove/:id*  -->  
    
+### Done in V.1.1
+- Sorted activities by hour and date in the home page.
 
+- Fixed bug when Log Out.
+
+- Added style to NavBar.
 
 ### TO DO    
 - Finish Home page (hide button subscribe when user is logged in)
-
-- Sort Activities by hours
 
 - Add route to see only the activities the member can do by it member Fee.
 
@@ -115,7 +118,5 @@ DELETE
 - Modify personal info (email, password, membership Fee, Unsubscribe)
 
 - Implement loader
-
-- Error at Log Out when its done in Member profile.
 
 - Finish style webpage & mediaQuery
