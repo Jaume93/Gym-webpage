@@ -27,13 +27,18 @@ const App = () => {
   const [user, setUser] = useState();
 
   const getUser = async () => {
-    const token = localStorage.getItem('token')
-    const response = await axios(`/api/members/yourInfo`, {
-      headers: {
-        "Authorization": token
-      }
-    })
-    setUser(response.data.member)
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios(`/api/members/yourInfo`, {
+        headers: {
+          "Authorization": token
+        }
+      })
+      setUser(response.data.member)
+    }
+    catch (err) {
+      setUser(null)
+    }
   }
 
   useEffect(() => {
@@ -49,7 +54,7 @@ const App = () => {
     <>
       <div className="App">
         <Router>
-          <NavBar user={user} />
+          <NavBar user={user} getUser={getUser} />
 
           <Switch>
             <Route path="/" exact={true}> <Homepage /> </Route>

@@ -37,7 +37,7 @@ ActivityRouter.put('/resetPartakers', async (req, res, next) => {
 // Get all activities
 ActivityRouter.get('/', async (req, res, next) => {
     try {
-        const activities = await Activity.find({})
+        const activities = await Activity.find({}).sort('startTime')
             .select(['activityName', 'description', 'duration', 'startTime', 'location']);
         return res.json({
             success: true,
@@ -109,7 +109,7 @@ ActivityRouter.post('/create', checkToken, authRole, async (req, res, next) => {
         const { id } = req.user;
         const { activityName, description, type, membFee, duration, startTime, location, maxCapacity } = req.body;
         let activityTime = new Date()
-        activityTime.setHours(parseFloat(startTime) + 2, 0, 0, 0)
+        activityTime.setHours(parseFloat(startTime), 0, 0, 0)
 
         if (!activityName || !description || !type || !membFee || !duration || !startTime || !location || !maxCapacity) {
             return next({
